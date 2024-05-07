@@ -1,0 +1,276 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  html {
+    font-family: "Montserrat", sans-serif;
+  }
+  body {
+    background: #000000;
+  }
+  
+  header {
+    margin: 5rem;
+  }
+  
+  .overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 10vh;
+
+}
+
+.text {
+	font-size: 2rem;
+	display: flex;
+	position: absolute;
+	top: 5vh;
+	left: 50%;
+	transform: translateX(-50%);
+	user-select: none;
+  color: #f7b0b0;
+
+	.wrapper {
+		padding: 0.5rem;
+		.letter {
+      padding-bottom: 0.5rem;
+			transition: ease-out 1s;
+			transform: translateY(40%);
+		}
+		.shadow {
+			transform: scale(1, -1);
+			color: #5e5e5e;
+			transition: ease-in 5s, ease-out 5s;
+      font-size: 36px;
+  background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0), #2b2a2a); /* Define the gradient */
+  -webkit-background-clip: text; /* Clip the background to the text */
+  background-clip: text; /* Clip the background to the text */
+  color: transparent; /* Make the text transparent */
+  -webkit-text-fill-color: transparent; /* Hide the text */
+		}
+		&:hover {
+			.letter {
+				transform: translateY(-200%);
+			}
+			.shadow {
+				opacity: 0;
+				transform: translateY(200%);
+			}
+		}
+	}
+}
+
+  
+  footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+  }
+  
+  footer p {
+    color: #ccc;
+  }
+  .groups{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: auto;
+    margin-top: 7rem;
+    margin-left: 5rem;
+    float: left;
+    border-radius: 70%;
+    height: .8vh;
+    align-items: center;
+  }
+
+  .g{
+    background: #ffffff;
+    box-shadow: 0 2px 5px #170d0d;
+    align-items: center;
+    text-align: center;
+    padding: 0.75rem;
+    height: 3rem;
+    width: fit-content;
+    margin: 10rem;
+  }
+  .group {
+
+    background: #313131;
+    box-shadow: 0 2px 5px #170d0d;
+    align-items: center;
+    text-align: center;
+    padding: 0.75rem;
+    height: 3rem;
+    width: 10rem;
+    margin: 0.3rem;
+  }
+
+  .group:hover{
+    background-color: #EF4765;
+  }
+
+  .group h1 {
+    font-size: 1.1em;
+    margin-bottom: 6px;
+    color: #ffffff;
+  }
+  .login {
+    border-radius: 10%;
+    box-shadow: 0 2px 5px #170d0d;
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    background-color: #0f0f0f;
+    color: #ffffff;
+    width: 25%;
+    height: 50vh;
+    margin: auto;    
+    margin-top: 13rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login > input {
+    width: 70%;
+    height: 2rem;
+    padding: 1rem;
+    box-shadow: 0 2px 5px #170d0d;
+    border: #f6f6f6;
+    background-color: #fdeeed;
+  }
+.btn{
+  background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+  border: 0;
+  border-radius: 12px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 2.5;
+  outline: transparent;
+  padding: 0 1rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.btn:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.btn:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.exercisegroup{
+  width: 70%;
+  height: 65vh;
+  background-color:transparent;
+  margin: auto;
+  margin-top: 0;
+  margin-right: 15rem;
+  display: flex;
+}
+
+.exercisetabs{
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 2.5rem;
+  height: 100%;
+}
+
+.exerciselist{
+  flex:3;
+  display: flex;
+  flex-direction: column;
+  background-color: #FF9A5A;
+  width: 10rem;
+
+}
+.exercisetab{
+  background-color: #EF4765;
+  writing-mode: vertical-rl;
+  transform: scaleX(-1) scaleY(-1);
+  border-top-right-radius: 10%; 
+  border-bottom-right-radius: 10%;
+  flex: 1;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #ff9daf;
+}
+.activetab{
+  background-color: #FF9A5A;
+  writing-mode: vertical-rl;
+  transform: scaleX(-1) scaleY(-1);
+  border-top-right-radius: 10%; 
+  border-bottom-right-radius: 10%;
+  flex: 1;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.exercises{
+  flex:10;
+  background-color: #ffffff;
+  border-bottom-right-radius: 20px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.workout{
+    background-color:#ffffff;
+    border-radius:10px;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.workout img{
+  width: 12rem;
+}
+
+.bodysection{
+  flex: 1;
+  color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bodysection:hover{
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.exercisetab:hover{
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.hometab{
+  width: 10%;
+  height: 5vh;
+  line-height: 5vh;
+  margin: auto;
+  margin-top: 9rem;
+  margin-right: 15rem;
+  background-color: #ffffff;
+  text-align: center;
+  border-top-right-radius:20px;
+  border-top-left-radius: 20px;
+}
