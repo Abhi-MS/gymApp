@@ -1,0 +1,31 @@
+[
+    {
+      "MuscleGroups": "Running",
+      "ListEx": [
+        "https://res.cloudinary.com/peloton-cycle/image/fetch/f_auto,c_limit,w_3840,q_90/https://downloads.ctfassets.net/6ilvqec50fal/JSWi5keUr3w5myEInfYdN/c1dadb9e2721365e62ce0f8c549a5924/overhead-press.jpg",
+        "https://img.freepik.com/free-photo/young-fitness-man-studio_7502-5008.jpg"
+      ]
+    },
+    {
+      "MuscleGroups": "Cycling",
+      "ListEx": [
+        "https://images.squarespace-cdn.com/content/v1/6500d3fc65f3cc7d381e3560/6940fcd1-51e8-4de6-b074-814e6a983946/1B5A3413.jpg",
+        "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg"
+      ]
+    },
+    {
+      "MuscleGroups": "Walking",
+      "ListEx": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGK4HUN6v0ZveNH1oRFvszmPgb3G3ktRLOOA&s",
+        "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg"
+      ]
+    },
+    {
+      "MuscleGroups": "Swimming",
+      "ListEx": [
+        "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
+        "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg"
+      ]
+    }
+  ]
+  

@@ -9,7 +9,7 @@ import UpperBody from "../pages/MuscleGroups/UpperBody"
 import LowerBody from "../pages/MuscleGroups/LowerBody"
 import Abs from "../pages/MuscleGroups/Abs"
 import Footer from "./Footer";
-import TestWorkoutDetails from "../pages/MuscleGroups/TestWorkoutDetails";
+import "../../src/styles.css"
 
 
 function App() {
@@ -24,7 +24,6 @@ function App() {
           <Route path="/cardio" element={<Cardio />}/>
           <Route path="/upperbody" element={<UpperBody />}/>
           <Route path="/lowerbody" element={<LowerBody />}/>
-          <Route path="/testworkoutdetails/:id" element={<TestWorkoutDetails />}/>
           <Route path="/abs" element={<Abs />}/>
           <Route path="*" element={<NoPage />}/>
         </Routes>

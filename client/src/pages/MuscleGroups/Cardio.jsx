@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { useState, useEffect } from "react";
+import muscleGroupsData from "../../jsonFiles/cardio.json"
 
-export default function Cardio() {
+export default function UpperBody() {
+
+  const [data,setData] = useState([]);
+  const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(null);
+  const handleMuscleGroupClick = (muscleGroup) => {
+    setSelectedMuscleGroup(muscleGroup);
+  };
+
+  const selectedImages = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || [];
+
+  useEffect(() => {
+    setData(muscleGroupsData);
+  }, []);
+
   return (
     <><div className="hometab"><Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link></div>
     <div className="exercisegroup">
@@ -12,14 +27,35 @@ export default function Cardio() {
         <div className="exercisetab"><Link to="/lowerbody" style={{ textDecoration: 'none', color: "white" }}>Lower Body</Link></div>
       </div>
       <div className="exerciselist">
-        <div className="bodysection">Treadmill</div>
-        <div className="bodysection">Running</div>
-        <div className="bodysection">Swimming</div>
-        <div className="bodysection">Cycling</div>
-        <div className="bodysection">Rowing</div>
-        <div className="bodysection">Walking</div>
+        {data.length ? (
+          <div className="exerciselist">
+
+          {data.map((row, index) => (
+              <div className="bodysection" key={index}
+              onClick={() => handleMuscleGroupClick(row.MuscleGroups)}>
+              {row.MuscleGroups}
+              </div>
+              ))}
+
+          </div>
+        ) : null}
       </div>
-      <div className="exercises"></div>
-    </div></>
+      <div className="exercises">
+      {selectedImages.length > 0 ? (
+          selectedImages.map((url, index) => (
+            <div className="workout">
+            <img 
+              key={index}
+              src={url}
+              alt={`Exercise ${index + 1}`}
+            />
+            </div>
+          ))
+        ) : (
+          <p>Select a muscle group to see exercise images.</p>
+        )}
+        </div>
+        </div>
+    </>
   );
 }

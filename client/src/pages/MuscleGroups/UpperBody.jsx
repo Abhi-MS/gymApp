@@ -1,28 +1,21 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import { useState, useEffect } from "react";
-import Data from "../../csvfiles/upperbody.csv"
-import Papa from 'papaparse';
+import muscleGroupsData from "../../jsonFiles/upperBody.json"
 
 export default function UpperBody() {
 
   const [data,setData] = useState([]);
+  const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(null);
+  const handleMuscleGroupClick = (muscleGroup) => {
+    setSelectedMuscleGroup(muscleGroup);
+  };
 
-  useEffect(() =>{
-    const fetchData = async () => {
-      const response = await fetch(Data);
-      const reader = response.body.getReader();
-      const result = await reader.read();
-      const decoder = new TextDecoder("utf-8");
-      const csvData = decoder.decode(result.value);
-      const parsedData = Papa.parse(csvData,{
-        header:true,
-        skipEmptyLines:true
-      }).data;
-      setData(parsedData);
-    };
-    fetchData();
-  }, [])
+  const selectedImages = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || [];
+
+  useEffect(() => {
+    setData(muscleGroupsData);
+  }, []);
 
   return (
     <><div className="hometab"><Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link></div>
@@ -37,18 +30,32 @@ export default function UpperBody() {
         {data.length ? (
           <div className="exerciselist">
 
-            {data.map((row, index) => (
-              <div className="bodysection" key={index}>{row.MuscleGroups}</div>
-            ))}
+          {data.map((row, index) => (
+              <div className="bodysection" key={index}
+              onClick={() => handleMuscleGroupClick(row.MuscleGroups)}>
+              {row.MuscleGroups}
+              </div>
+              ))}
+
           </div>
         ) : null}
       </div>
       <div className="exercises">
-        <div className="workout"><img src="https://cdn-cccio.nitrocdn.com/sQAAylIpwgMYZgBLSXcMgCkUIbfIzHvb/assets/images/optimized/rev-3d9de4c/www.aleanlife.com/wp-content/uploads/2020/08/rope-bicep-curls.gif" alt="arms workout 1"></img></div>
-        <div className="workout"><img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/10/close-grip-barbell-curl.gif" alt="arms workout 2"/></div>
-        <div className="workout"><img src="https://fitnessprogramer.com/wp-content/uploads/2021/02/Hammer-Curl.gif" alt="arms workout 3"/></div>
-        <div className="workout"><img src="https://www.inspireusafoundation.org/wp-content/uploads/2022/04/dumbbell-hammer-curl.gif" alt="arms workout 4"/></div>
-      </div>
-    </div></>
+      {selectedImages.length > 0 ? (
+          selectedImages.map((url, index) => (
+            <div className="workout">
+            <img 
+              key={index}
+              src={url}
+              alt={`Exercise ${index + 1}`}
+            />
+            </div>
+          ))
+        ) : (
+          <p>Select a muscle group to see exercise images.</p>
+        )}
+        </div>
+        </div>
+    </>
   );
 }
