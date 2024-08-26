@@ -1,61 +1,93 @@
 import { Link } from "react-router-dom";
-import React from "react";
-import { useState, useEffect } from "react";
-import muscleGroupsData from "../../jsonFiles/upperBody.json"
+import React, { useState, useEffect } from "react";
+import muscleGroupsData from "../../jsonFiles/upperBody.json";
 
 export default function UpperBody() {
-
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(null);
+
   const handleMuscleGroupClick = (muscleGroup) => {
     setSelectedMuscleGroup(muscleGroup);
   };
 
-  const selectedImages = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || [];
+  // Find the selected muscle group data
+  const selectedExercises = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || [];
 
   useEffect(() => {
     setData(muscleGroupsData);
   }, []);
 
   return (
-    <><div className="hometab"><Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link></div>
-    <div className="exercisegroup">
-      <div className="exercisetabs">
-        <div className="exercisetab"><Link to="/cardio" style={{ textDecoration: 'none', color: "white" }}>Cardio</Link></div>
-        <div className="activetab"><Link to="/upperbody" style={{ textDecoration: 'none', color: "white" }}>Upper Body</Link></div>
-        <div className="exercisetab"><Link to="/abs" style={{ textDecoration: 'none', color: "white" }}>Abs</Link></div>
-        <div className="exercisetab"><Link to="/lowerbody" style={{ textDecoration: 'none', color: "white" }}>Lower Body</Link></div>
+    <>
+      <div className="hometab">
+        <Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link>
       </div>
-      <div className="exerciselist">
-        {data.length ? (
-          <div className="exerciselist">
-
-          {data.map((row, index) => (
-              <div className="bodysection" key={index}
-              onClick={() => handleMuscleGroupClick(row.MuscleGroups)}>
-              {row.MuscleGroups}
-              </div>
+      <div className="exercisegroup">
+        <div className="exercisetabs">
+          <div className="exercisetab"><Link to="/cardio" style={{ textDecoration: 'none', color: "white" }}>Cardio</Link></div>
+          <div className="activetab"><Link to="/upperbody" style={{ textDecoration: 'none', color: "white" }}>Upper Body</Link></div>
+          <div className="exercisetab"><Link to="/abs" style={{ textDecoration: 'none', color: "white" }}>Abs</Link></div>
+          <div className="exercisetab"><Link to="/lowerbody" style={{ textDecoration: 'none', color: "white" }}>Lower Body</Link></div>
+        </div>
+        <div className="exerciselist">
+          {data.length ? (
+            <div className="exerciselist">
+              {data.map((row, index) => (
+                <div
+                  className="bodysection"
+                  key={index}
+                  onClick={() => handleMuscleGroupClick(row.MuscleGroups)}
+                >
+                  {row.MuscleGroups}
+                </div>
               ))}
-
-          </div>
-        ) : null}
-      </div>
-      <div className="exercises">
-      {selectedImages.length > 0 ? (
-          selectedImages.map((url, index) => (
-            <div className="workout">
-            <img 
-              key={index}
-              src={url}
-              alt={`Exercise ${index + 1}`}
-            />
             </div>
-          ))
-        ) : (
-          <p>Select a muscle group to see exercise images.</p>
-        )}
+          ) : null}
         </div>
+        <div className="exercises">
+          {selectedExercises.length > 0 ? (
+            selectedExercises.map((exercise, index) => (
+              <div className="workout" key={index}>
+              <div className="exercise-img">
+                <img src={exercise.url} alt={exercise.name} />
+                </div>
+                <div className="exercise-info">
+                  <p id="exercise-name">{exercise.name}</p>
+                  <div className="tracking">
+                    <p>Weight</p>
+                    <div className="update">
+                    <button onClick={() => handleUpdate(exercise, 'weight', -1)}>-</button>
+                    <p>{exercise.weight}</p>
+                    <button onClick={() => handleUpdate(exercise, 'weight', 1)}>+</button>
+                    </div>
+                  </div>
+                  <div className="tracking">
+                    <p>Reps</p>    
+                    <div className="update">
+                    <button onClick={() => handleUpdate(exercise, 'reps', -1)}>-</button>
+                    {exercise.reps}
+                    <button onClick={() => handleUpdate(exercise, 'reps', 1)}>+</button>
+                    </div>
+                    </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>Select a muscle group to see exercise images.</p>
+          )}
         </div>
+      </div>
     </>
   );
+
+  function handleUpdate(exercise, field, change) {
+    setData(data.map(group => ({
+      ...group,
+      ListEx: group.ListEx.map(item =>
+        item.name === exercise.name
+          ? { ...item, [field]: item[field] + change }
+          : item
+      )
+    })));
+  }
 }

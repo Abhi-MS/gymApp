@@ -8,6 +8,8 @@
   }
   body {
     background: #000000;
+    font-family: 'Space Grotesk', sans-serif;
+      font-weight: 300;
   }
   
   header {
@@ -228,24 +230,61 @@
 }
 .exercises{
   flex:10;
-  background-color: #ffffff;
+  background-color: #d0d0d0;
   border-bottom-right-radius: 20px;
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   padding: 2rem;
+  overflow: auto;
 }
 
 .workout{
-    background-color:#ffffff;
-    border-radius:10px;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  height: 17rem;
+  margin: auto;
+  background: #e0e0e0;
+  box-shadow: 20px 20px 60px #bebebe,
+               -20px -20px 60px #ffffff;
 }
-.workout img{
-  width: 12rem;
+.exercise-img{
+  width: 15rem;
+  height: 10rem;
+  display: flex;
+}
+.exercise-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.exercise-info{
+  margin: 1rem;
+}
+.tracking{
+  display: flex;
+  width: 100%;
+  justify-content:space-between ;
+}
+.tracking button{
+  border-radius: 50%;
+  border: none;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  background-color: #b2b2b2;
+  color: #d4d4d4;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+.update{
+  display: flex;
+  gap: 1rem;
+}
+
+
+#exercise-name{
+  margin-bottom: 1rem;
 }
 
 .bodysection{
@@ -270,7 +309,7 @@
   margin: auto;
   margin-top: 9rem;
   margin-right: 15rem;
-  background-color: #ffffff;
+  background-color: #d0d0d0;
   text-align: center;
   border-top-right-radius:20px;
   border-top-left-radius: 20px;
