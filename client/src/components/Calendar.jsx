@@ -7,8 +7,8 @@ import interactionPlugin from '@fullcalendar/interaction'; // For dateClick
 const CalendarComponent = () => {
   // Example event data
   const [events, setEvents] = useState([
-    { title: 'Completed React project', date: '2024-09-13' },
-    { title: 'Started learning Redux', date: '2024-09-14' }
+    { title: 'Biceps', date: '2024-09-13' },
+    { title: 'Legs', date: '2024-09-14' }
   ]);
 
   // Handle date click

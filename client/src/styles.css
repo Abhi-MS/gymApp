@@ -327,6 +327,54 @@
   margin: 10rem;
   margin-top: 7rem;
 }
-.calendar{
-  width: 40%;
+
+/* Calendar css */
+
+/* Set the background and text color for the calendar */
+.fc {
+  background-color: transparent; /* Calendar background */
+  color: black; /* Default text color */
+}
+
+/* Toolbar (header) customization */
+.fc-toolbar {
+  background-color: transparent; /* Light grey background for toolbar */
+  color: rgb(255, 255, 255); /* Text color */
+}
+
+/* Day cell customization */
+.fc-day {
+  background-color: white; /* Background color for day cells */
+  color: black; /* Text color for day cells */
+}
+
+/* Event customization */
+.fc-event {
+  background-color: #454545; /* Blue background for events */
+  color: white; /* White text for events */
+  border: none; /* Remove border if any */
+}
+
+/* Current day highlight */
+.fc-day-today {
+  background-color: #e9ecef; /* Light grey background for today */
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: rgb(164, 201, 249);
+}
+
+/* Selected day highlight */
+.fc-day-selected {
+  background-color: #b5d4f8; /* Light blue background for selected day */
+}
+
+/* Hover effect on events */
+.fc-event:hover {
+  background-color: #5a67a1; /* Darker blue on hover */
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1.5rem;
+  margin-right: 1rem;
 }
