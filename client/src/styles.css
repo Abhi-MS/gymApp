@@ -338,7 +338,7 @@
 
 /* Toolbar (header) customization */
 .fc-toolbar {
-  background-color: transparent; /* Light grey background for toolbar */
+  background-color: transparent; 
   color: rgb(255, 255, 255); /* Text color */
 }
 
@@ -350,14 +350,14 @@
 
 /* Event customization */
 .fc-event {
-  background-color: #454545; /* Blue background for events */
+  background-color: #454545; /* Background for events */
   color: white; /* White text for events */
   border: none; /* Remove border if any */
 }
 
 /* Current day highlight */
 .fc-day-today {
-  background-color: #e9ecef; /* Light grey background for today */
+  background-color: #e9ecef; /* Background for today */
 }
 
 .fc .fc-daygrid-day.fc-day-today {
