@@ -1,12 +1,14 @@
 import React from "react";
 import Group from "../components/Group";
 import { Link } from "react-router-dom";
+import CalendarComponent from "../components/Calendar";
 
 
 
 export default function Home() {
   return (
     <>
+    <div className="home">
     <div className="groups">
     <Link to="/cardio" style={{ textDecoration: 'none'}}>
         <Group name="Cardio"/>
@@ -24,6 +26,9 @@ export default function Home() {
     <Group name="Upper body"/>
     </Link>
     </div>
+    <div className="calendar"><CalendarComponent /></div>
+    </div>
+    
     </>
   );
 }

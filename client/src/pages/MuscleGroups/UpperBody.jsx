@@ -19,7 +19,7 @@ export default function UpperBody() {
 
   return (
     <>
-      <div className="hometab">
+    <div className="exercisepage"><div className="hometab">
         <Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link>
       </div>
       <div className="exercisegroup">
@@ -76,7 +76,8 @@ export default function UpperBody() {
             <p>Select a muscle group to see exercise images.</p>
           )}
         </div>
-      </div>
+      </div></div>
+      
     </>
   );
 

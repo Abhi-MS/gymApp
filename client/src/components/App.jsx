@@ -4,10 +4,8 @@ import Header from "./Header";
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import NoPage from "../pages/NoPage";
-import Cardio from "../pages/MuscleGroups/Cardio";
 import UpperBody from "../pages/MuscleGroups/UpperBody"
-import LowerBody from "../pages/MuscleGroups/LowerBody"
-import Abs from "../pages/MuscleGroups/Abs"
+import MuscleGroup from "../pages/MuscleGroups/MuscleGroup";
 import Footer from "./Footer";
 import "../../src/styles.css"
 
@@ -21,10 +19,8 @@ function App() {
           <Route index element={<Login/>}/>
           <Route path="/home" element={<Home />}/>
           <Route path="/login" element={<Login />}/>
-          <Route path="/cardio" element={<Cardio />}/>
           <Route path="/upperbody" element={<UpperBody />}/>
-          <Route path="/lowerbody" element={<LowerBody />}/>
-          <Route path="/abs" element={<Abs />}/>
+          <Route path="/:group" element={<MuscleGroup />} />
           <Route path="*" element={<NoPage />}/>
         </Routes>
       </Router>
