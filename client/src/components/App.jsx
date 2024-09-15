@@ -4,8 +4,7 @@ import Header from "./Header";
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import NoPage from "../pages/NoPage";
-import UpperBody from "../pages/MuscleGroups/UpperBody"
-import MuscleGroup from "../pages/MuscleGroups/MuscleGroup";
+import Exercises from "../pages/Exercises";
 import Footer from "./Footer";
 import "../../src/styles.css"
 
@@ -19,8 +18,7 @@ function App() {
           <Route index element={<Login/>}/>
           <Route path="/home" element={<Home />}/>
           <Route path="/login" element={<Login />}/>
-          <Route path="/upperbody" element={<UpperBody />}/>
-          <Route path="/:group" element={<MuscleGroup />} />
+          <Route path="/:group" element={<Exercises />} />
           <Route path="*" element={<NoPage />}/>
         </Routes>
       </Router>

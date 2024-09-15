@@ -9,7 +9,6 @@ export default function UpperBody() {
   const handleMuscleGroupClick = (muscleGroup) => {
     setSelectedMuscleGroup(muscleGroup);
   };
-
   // Find the selected muscle group data
   const selectedExercises = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || [];
 

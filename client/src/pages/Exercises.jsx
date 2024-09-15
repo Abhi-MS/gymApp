@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
-export default function MuscleGroup() {
+export default function MuscleGroupPage() {
   const { group } = useParams(); 
   const [data, setData] = useState([]);
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(null);
@@ -9,13 +9,13 @@ export default function MuscleGroup() {
   const handleMuscleGroupClick = (muscleGroup) => {
     setSelectedMuscleGroup(muscleGroup);
   };
-
   // Find the selected muscle group data
-  const selectedExercises = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || [];
+  const selectedExercises = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || (data[0]?.ListEx || []);
+
 
   useEffect(() => {
     // Dynamically import the JSON file based on the route parameter
-    import(`../../jsonFiles/${group}.json`)
+    import(`../jsonFiles/${group}.json`)
       .then(module => setData(module.default))
       .catch(error => console.error(`Error loading ${group}.json: `, error));
   }, [group]); // Re-run when 'group' changes
