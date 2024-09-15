@@ -13,7 +13,7 @@ function App() {
   return (
     <div>
     <Header />
-    <Router>
+    <Router basename="/gymApp">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />}/>
