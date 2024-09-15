@@ -15,7 +15,7 @@ function App() {
     <Header />
     <Router>
         <Routes>
-          <Route index element={<Login/>}/>
+          <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />}/>
           <Route path="/login" element={<Login />}/>
           <Route path="/:group" element={<Exercises />} />
