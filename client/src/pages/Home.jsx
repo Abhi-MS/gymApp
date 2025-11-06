@@ -409,61 +409,58 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Right Side Content */}
-        <div className="right-content">
-          {/* Calendar Section */}
-          <div className="calendar-section">
-            <h2 className="section-title">Workout Calendar</h2>
+        {/* Calendar Section */}
+        <div className="calendar-section">
+          <h2 className="section-title">Workout Calendar</h2>
+          
+          {/* Week Navigation */}
+          <div className="week-navigation">
+            <button 
+              className="week-nav-btn"
+              onClick={() => navigateWeek(-1)}
+              title="Previous Week"
+            >
+              ← Previous Week
+            </button>
             
-            {/* Week Navigation */}
-            <div className="week-navigation">
-              <button 
-                className="week-nav-btn"
-                onClick={() => navigateWeek(-1)}
-                title="Previous Week"
-              >
-                ← Previous Week
-              </button>
-              
-              <div className="current-week-display">
-                <span className="week-label">Viewing: </span>
-                <span className="week-dates">
-                  {selectedWeekStart ? (() => {
-                    const start = new Date(selectedWeekStart + 'T00:00:00');
-                    const end = new Date(start);
-                    end.setDate(start.getDate() + 6);
-                    return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-                  })() : 'Loading...'}
-                </span>
-              </div>
-              
-              <button 
-                className="week-nav-btn"
-                onClick={() => navigateWeek(1)}
-                title="Next Week"
-              >
-                Next Week →
-              </button>
+            <div className="current-week-display">
+              <span className="week-label">Viewing: </span>
+              <span className="week-dates">
+                {selectedWeekStart ? (() => {
+                  const start = new Date(selectedWeekStart + 'T00:00:00');
+                  const end = new Date(start);
+                  end.setDate(start.getDate() + 6);
+                  return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+                })() : 'Loading...'}
+              </span>
             </div>
-
-            <div className="calendar">
-              <CalendarComponent 
-                events={calendarEvents}
-                onDateClick={handleCalendarDateClick}
-              />
-            </div>
+            
+            <button 
+              className="week-nav-btn"
+              onClick={() => navigateWeek(1)}
+              title="Next Week"
+            >
+              Next Week →
+            </button>
           </div>
 
-          {/* Selected Week Plan Section */}
-          <div className="weekly-plan-section">
-            <WeeklyPlan 
-              weekPlan={selectedWeekPlan}
-              weekStart={selectedWeekStart}
-              isNextWeek={selectedWeekStart === getNextWeekStart()}
-              onApplyDefaultSplit={applyDefaultSplit}
-              onClearWeek={clearSelectedWeek}
+          <div className="calendar">
+            <CalendarComponent 
+              events={calendarEvents}
+              onDateClick={handleCalendarDateClick}
             />
           </div>
+        </div>
+
+        {/* Selected Week Plan Section */}
+        <div className="weekly-plan-section">
+          <WeeklyPlan 
+            weekPlan={selectedWeekPlan}
+            weekStart={selectedWeekStart}
+            isNextWeek={selectedWeekStart === getNextWeekStart()}
+            onApplyDefaultSplit={applyDefaultSplit}
+            onClearWeek={clearSelectedWeek}
+          />
         </div>
       </div>
 

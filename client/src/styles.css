@@ -5,14 +5,14 @@
   }
   html {
     font-family: "Montserrat", sans-serif;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
   }
   body {
     background-color: #2b4162;
     background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
     font-family: 'Space Grotesk', sans-serif;
-      font-weight: 300;
+    font-weight: 300;
+    min-height: 100vh;
   }
   
   header {
@@ -85,16 +85,15 @@
   .home{
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     padding: 0;
     margin: 0;
-    overflow: hidden;
   }
   
   /* Simple Description */
   .home-description {
     text-align: center;
-    padding: 1rem 2rem 0.5rem;
+    padding: 0.75rem 2rem 0.5rem;
     flex-shrink: 0;
   }
 
@@ -102,36 +101,31 @@
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.8);
     font-weight: 300;
-    margin: 0;
-    max-width: 600px;
     margin: 0 auto;
+    max-width: 600px;
+    line-height: 1.5;
   }
 
   /* Main Content Layout */
   .main-content {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    padding: 0.5rem 2rem 1rem;
+    padding: 1rem 2rem 2rem;
     flex: 1;
-    min-height: 0;
-    overflow: hidden;
   }
 
   .right-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    min-height: 0;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   /* Workout Section */
   .workout-section {
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    overflow: hidden;
+    margin-bottom: 1rem;
   }
 
   .section-title {
@@ -151,10 +145,9 @@
 
   .groups-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    flex: 1;
-    min-height: 0;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    max-width: 100%;
   }
 
   .g{
@@ -178,7 +171,7 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     text-align: center;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -187,7 +180,8 @@
     justify-content: center;
     align-items: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    min-height: 0;
+    height: 140px;
+    min-width: 180px;
   }
 
   .workout-card:hover {
@@ -198,13 +192,13 @@
   }
 
   .workout-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   }
 
   .workout-card h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: #ffffff;
     margin-bottom: 0.25rem;
     font-weight: 600;
@@ -212,9 +206,10 @@
 
   .workout-card p {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     margin: 0;
     font-weight: 300;
+    line-height: 1.3;
   }
 
   .calendar-section {
@@ -226,8 +221,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    overflow: hidden;
+    margin-bottom: 1rem;
   }
   
   .calendar-section .section-title {
@@ -582,8 +576,6 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
 }
 
 .weekly-plan-section .section-title {
@@ -593,11 +585,8 @@
 }
 
 .weekly-plan {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0;
-  overflow: auto;
 }
 
 .no-plan-message {
@@ -1189,41 +1178,73 @@
   box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* Large Screen Optimization */
+@media (min-width: 1200px) {
   .main-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 1rem 2rem 2rem;
   }
   
-  .right-content {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  .groups-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  
+  .workout-card {
+    height: 160px;
+    padding: 1.5rem;
+  }
+  
+  .calendar-section,
+  .weekly-plan-section {
+    padding: 2rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 1rem 1.5rem 2rem;
+    gap: 1.5rem;
   }
   
   .groups-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .workout-card {
+    height: 120px;
+    padding: 1rem;
+  }
+  
+  .workout-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .workout-card h3 {
+    font-size: 1rem;
+  }
+  
+  .workout-card p {
+    font-size: 0.75rem;
   }
 }
 
 @media (max-width: 768px) {
   .home-description {
-    padding: 1.5rem 1rem;
+    padding: 1rem;
   }
   
   .home-description p {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
   
   .main-content {
-    padding: 0.5rem 1.5rem 1.5rem;
-    gap: 1.5rem;
-  }
-  
-  .right-content {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    padding: 0.75rem 1rem 1.5rem;
+    gap: 1.25rem;
   }
   
   .groups-grid {
@@ -1232,16 +1253,33 @@
   }
   
   .workout-card {
-    height: 150px;
-    padding: 1.5rem;
+    height: 100px;
+    padding: 0.75rem;
+    min-width: unset;
   }
   
   .workout-icon {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .workout-card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.15rem;
+  }
+  
+  .workout-card p {
+    font-size: 0.7rem;
   }
   
   .section-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .calendar-section,
+  .weekly-plan-section {
+    padding: 1rem;
   }
 
   .week-days {
