@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Header from "./Header";
 import Home from "../pages/Home"
-import Login from "../pages/Login"
 import NoPage from "../pages/NoPage";
 import Exercises from "../pages/Exercises";
 import Footer from "./Footer";
@@ -15,9 +14,8 @@ function App() {
     <Header />
     <Router basename="/gymApp">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />}/>
-          <Route path="/login" element={<Login />}/>
           <Route path="/:group" element={<Exercises />} />
           <Route path="*" element={<NoPage />}/>
         </Routes>

@@ -12,13 +12,40 @@ export default function MuscleGroupPage() {
   // Find the selected muscle group data
   const selectedExercises = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || (data[0]?.ListEx || []);
 
-
+  // Load and save data to localStorage
   useEffect(() => {
-    // Dynamically import the JSON file based on the route parameter
-    import(`../jsonFiles/${group}.json`)
-      .then(module => setData(module.default))
-      .catch(error => console.error(`Error loading ${group}.json: `, error));
+    const loadWorkoutData = async () => {
+      const storageKey = `workoutData_${group}`;
+      const savedData = localStorage.getItem(storageKey);
+      
+      if (savedData) {
+        // Use saved data from localStorage
+        setData(JSON.parse(savedData));
+      } else {
+        // Load from JSON file if no saved data exists
+        try {
+          const module = await import(`../jsonFiles/${group}.json`);
+          setData(module.default);
+          // Save initial data to localStorage
+          localStorage.setItem(storageKey, JSON.stringify(module.default));
+        } catch (error) {
+          console.error(`Error loading ${group}.json: `, error);
+        }
+      }
+    };
+
+    if (group) {
+      loadWorkoutData();
+    }
   }, [group]); // Re-run when 'group' changes
+
+  // Save data to localStorage whenever data changes
+  useEffect(() => {
+    if (data.length > 0 && group) {
+      const storageKey = `workoutData_${group}`;
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    }
+  }, [data, group]); // Save whenever data changes
 
   // Define all possible tabs
   const tabs = [
@@ -33,6 +60,17 @@ export default function MuscleGroupPage() {
       <div className="exercisepage">
         <div className="hometab">
           <Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link>
+          <button 
+            onClick={() => {
+              if (window.confirm('Reset workout data for this muscle group?')) {
+                localStorage.removeItem(`workoutData_${group}`);
+                window.location.reload();
+              }
+            }}
+            style={{ marginLeft: '10px', padding: '5px', fontSize: '12px' }}
+          >
+            Reset Data
+          </button>
         </div>
         <div className="exercisegroup">
           <div className="exercisetabs">
@@ -100,13 +138,14 @@ export default function MuscleGroupPage() {
   );
 
   function handleUpdate(exercise, field, change) {
-    setData(data.map(group => ({
+    const updatedData = data.map(group => ({
       ...group,
       ListEx: group.ListEx.map(item =>
         item.name === exercise.name
-          ? { ...item, [field]: item[field] + change }
+          ? { ...item, [field]: Math.max(0, item[field] + change) } // Prevent negative values
           : item
       )
-    })));
+    }));
+    setData(updatedData);
   }
 }
