@@ -37,7 +37,16 @@ export default function MuscleGroupPage() {
       } else {
         // Load from JSON file if no saved data exists or force reload is needed
         try {
-          const module = await import(`../jsonFiles/${group}.json`);
+          // Map tab names to actual file names
+          const fileNameMap = {
+            'upperbody': 'upperBody',
+            'lowerbody': 'lowerBody',
+            'cardio': 'cardio',
+            'abs': 'abs'
+          };
+          
+          const fileName = fileNameMap[group] || group;
+          const module = await import(`../jsonFiles/${fileName}.json`);
           console.log(`Loading ${group} from JSON file (${module.default.length} groups):`, module.default);
           setData(module.default);
           // Save initial data to localStorage
