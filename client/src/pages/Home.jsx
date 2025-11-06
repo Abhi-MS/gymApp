@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Group from "../components/Group";
 import { Link } from "react-router-dom";
 import CalendarComponent from "../components/Calendar";
@@ -7,8 +7,11 @@ import WeeklyPlan from "../components/WeeklyPlan";
 export default function Home() {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [nextWeekPlan, setNextWeekPlan] = useState({});
+  const [selectedWeekPlan, setSelectedWeekPlan] = useState({});
+  const [selectedWeekStart, setSelectedWeekStart] = useState(null);
   const [showPlanPopup, setShowPlanPopup] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   // Helper functions
   const getCurrentWeekStart = () => {
@@ -35,6 +38,53 @@ export default function Home() {
     return `${year}-${month}-${day}`;
   };
 
+  // Get week start (Monday) for any date
+  const getWeekStart = (date) => {
+    const dayOfWeek = date.getDay();
+    const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Sunday = 0, Monday = 1
+    const monday = new Date(date);
+    monday.setDate(date.getDate() - daysToSubtract);
+    
+    const year = monday.getFullYear();
+    const month = (monday.getMonth() + 1).toString().padStart(2, '0');
+    const day = monday.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  // Select a week to display in the sidebar
+  const selectWeek = useCallback((weekStartStr) => {
+    setSelectedWeekStart(weekStartStr);
+    
+    // Load the week's plan from localStorage and events
+    const weekPlan = {};
+    const weekStart = new Date(weekStartStr + 'T00:00:00');
+    
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(weekStart);
+      day.setDate(weekStart.getDate() + i);
+      const year = day.getFullYear();
+      const month = (day.getMonth() + 1).toString().padStart(2, '0');
+      const dayNum = day.getDate().toString().padStart(2, '0');
+      const dateStr = `${year}-${month}-${dayNum}`;
+      
+      // Check localStorage first
+      const savedWorkouts = localStorage.getItem(dateStr);
+      if (savedWorkouts) {
+        weekPlan[dateStr] = JSON.parse(savedWorkouts);
+      } else {
+        // Check calendar events
+        const dayEvents = calendarEvents.filter(event => 
+          event.date === dateStr && event.isPlanned
+        );
+        if (dayEvents.length > 0) {
+          weekPlan[dateStr] = dayEvents.map(event => event.workouts || []).flat();
+        }
+      }
+    }
+    
+    setSelectedWeekPlan(weekPlan);
+  }, [calendarEvents]);
+
   // Load initial data
   useEffect(() => {
     // Load calendar events
@@ -43,7 +93,7 @@ export default function Home() {
       setCalendarEvents(JSON.parse(savedEvents));
     }
 
-    // Load next week's plan
+    // Load next week plan
     const nextWeekKey = getNextWeekStart();
     const savedNextWeekPlan = localStorage.getItem(`weeklyPlan_${nextWeekKey}`);
     if (savedNextWeekPlan) {
@@ -51,11 +101,32 @@ export default function Home() {
     }
   }, []);
 
+  // Initialize selected week after calendar events are loaded
+  useEffect(() => {
+    const nextWeekKey = getNextWeekStart();
+
+    selectWeek(nextWeekKey);
+  }, [selectWeek]);
+
+  // Update selected week plan when calendar events change
+  useEffect(() => {
+    if (selectedWeekStart) {
+      selectWeek(selectedWeekStart);
+    }
+  }, [calendarEvents, selectedWeekStart, selectWeek]);
+
   // Handle calendar date click to show planning popup
   const handleCalendarDateClick = (dateStr) => {
     setSelectedDate(dateStr);
     setShowPlanPopup(true);
+    
+    // Also select the week containing this date
+    const clickedDate = new Date(dateStr + 'T00:00:00');
+    const weekStart = getWeekStart(clickedDate);
+    selectWeek(weekStart);
   };
+
+
 
   // Plan workout for selected date
   const planWorkout = (workoutType) => {
@@ -213,7 +284,75 @@ export default function Home() {
     localStorage.setItem('workoutCalendarEvents', JSON.stringify(filteredEvents));
   };
 
+  // Clear the selected week
+  const clearSelectedWeek = () => {
+    setShowClearConfirm(true);
+  };
 
+  const confirmClearWeek = () => {
+    if (!selectedWeekStart) return;
+
+    const weekStart = new Date(selectedWeekStart + 'T00:00:00');
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+
+    // Clear localStorage for this week's days using the same logic as selectWeek
+    for (let i = 0; i < 7; i++) {
+      // Use the same date calculation as in selectWeek function
+      const day = new Date(selectedWeekStart + 'T00:00:00');
+      day.setDate(day.getDate() + i);
+      const year = day.getFullYear();
+      const month = (day.getMonth() + 1).toString().padStart(2, '0');
+      const dayNum = day.getDate().toString().padStart(2, '0');
+      const dateStr = `${year}-${month}-${dayNum}`;
+      localStorage.removeItem(dateStr);
+    }
+
+    // Remove planned events from calendar for this week
+    const filteredEvents = calendarEvents.filter(event => {
+      const eventDate = new Date(event.date + 'T00:00:00'); // Add time to match our date format
+      const shouldKeep = !(eventDate >= weekStart && eventDate <= weekEnd && event.isPlanned);
+      return shouldKeep;
+    });
+
+    // Update calendar events
+    setCalendarEvents(filteredEvents);
+    localStorage.setItem('workoutCalendarEvents', JSON.stringify(filteredEvents));
+
+    // If this is next week, also clear the next week plan
+    const nextWeekStart = getNextWeekStart();
+    if (selectedWeekStart === nextWeekStart) {
+      setNextWeekPlan({});
+      localStorage.removeItem(`weeklyPlan_${nextWeekStart}`);
+    }
+
+    // Reset the selected week plan and refresh it
+    setSelectedWeekPlan({});
+    setShowClearConfirm(false);
+    
+    // Refresh the selected week to show the cleared state
+    setTimeout(() => selectWeek(selectedWeekStart), 100);
+  };
+
+  const cancelClearWeek = () => {
+    setShowClearConfirm(false);
+  };
+
+  // Navigate weeks (previous/next)
+  const navigateWeek = (direction) => {
+    if (!selectedWeekStart) return;
+    
+    const currentWeek = new Date(selectedWeekStart + 'T00:00:00');
+    const newWeek = new Date(currentWeek);
+    newWeek.setDate(currentWeek.getDate() + (direction * 7));
+    
+    const year = newWeek.getFullYear();
+    const month = (newWeek.getMonth() + 1).toString().padStart(2, '0');
+    const day = newWeek.getDate().toString().padStart(2, '0');
+    const newWeekStart = `${year}-${month}-${day}`;
+    
+    selectWeek(newWeekStart);
+  };
 
   // Get workout colors
   const getWorkoutColor = (workoutType) => {
@@ -275,6 +414,38 @@ export default function Home() {
           {/* Calendar Section */}
           <div className="calendar-section">
             <h2 className="section-title">Workout Calendar</h2>
+            
+            {/* Week Navigation */}
+            <div className="week-navigation">
+              <button 
+                className="week-nav-btn"
+                onClick={() => navigateWeek(-1)}
+                title="Previous Week"
+              >
+                ← Previous Week
+              </button>
+              
+              <div className="current-week-display">
+                <span className="week-label">Viewing: </span>
+                <span className="week-dates">
+                  {selectedWeekStart ? (() => {
+                    const start = new Date(selectedWeekStart + 'T00:00:00');
+                    const end = new Date(start);
+                    end.setDate(start.getDate() + 6);
+                    return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+                  })() : 'Loading...'}
+                </span>
+              </div>
+              
+              <button 
+                className="week-nav-btn"
+                onClick={() => navigateWeek(1)}
+                title="Next Week"
+              >
+                Next Week →
+              </button>
+            </div>
+
             <div className="calendar">
               <CalendarComponent 
                 events={calendarEvents}
@@ -283,12 +454,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Next Week Plan Section */}
+          {/* Selected Week Plan Section */}
           <div className="weekly-plan-section">
-            <h2 className="section-title">Next Week's Plan</h2>
             <WeeklyPlan 
-              nextWeekPlan={nextWeekPlan}
+              weekPlan={selectedWeekPlan}
+              weekStart={selectedWeekStart}
+              isNextWeek={selectedWeekStart === getNextWeekStart()}
               onApplyDefaultSplit={applyDefaultSplit}
+              onClearWeek={clearSelectedWeek}
             />
           </div>
         </div>
@@ -354,6 +527,29 @@ export default function Home() {
           </div>
         );
       })()}
+
+      {/* Clear Week Confirmation Modal */}
+      {showClearConfirm && (
+        <div className="popup-overlay" onClick={cancelClearWeek}>
+          <div className="confirmation-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="confirmation-header">
+              <h3>🗑️ Clear Week</h3>
+            </div>
+            <div className="confirmation-content">
+              <p>Are you sure you want to clear all workouts for {selectedWeekStart === getNextWeekStart() ? 'next week' : 'this week'}?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
+            <div className="confirmation-actions">
+              <button className="cancel-btn" onClick={cancelClearWeek}>
+                Cancel
+              </button>
+              <button className="confirm-btn" onClick={confirmClearWeek}>
+                Clear Week
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </>
   );

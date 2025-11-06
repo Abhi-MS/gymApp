@@ -18,7 +18,7 @@ const CalendarComponent = ({ events = [], onDateClick }) => {
         initialView="dayGridMonth"
         height="65vh"
         events={events}
-        dateClick={handleDateClick} // Handle date click
+        dateClick={handleDateClick}
       />
     </div>
   );
