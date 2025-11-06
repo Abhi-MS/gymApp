@@ -15,19 +15,34 @@ export default function MuscleGroupPage() {
   // Load and save data to localStorage
   useEffect(() => {
     const loadWorkoutData = async () => {
+      // TEMPORARY FIX: Always clear cache for upperbody and lowerbody to force fresh load
       const storageKey = `workoutData_${group}`;
+      
+      if (group === 'upperbody' || group === 'lowerbody') {
+        localStorage.removeItem(storageKey);
+        console.log(`Cleared localStorage for ${group} to force fresh load`);
+      }
+      
       const savedData = localStorage.getItem(storageKey);
       
-      if (savedData) {
+      // Check if we need to force reload due to outdated exercise names
+      const hasOldData = savedData && JSON.parse(savedData).length > 0 && 
+                         JSON.parse(savedData)[0].ListEx && 
+                         JSON.parse(savedData)[0].ListEx[0].name.includes("Exercise");
+      
+      if (savedData && !hasOldData) {
         // Use saved data from localStorage
+        console.log(`Loading ${group} from localStorage:`, JSON.parse(savedData));
         setData(JSON.parse(savedData));
       } else {
-        // Load from JSON file if no saved data exists
+        // Load from JSON file if no saved data exists or force reload is needed
         try {
           const module = await import(`../jsonFiles/${group}.json`);
+          console.log(`Loading ${group} from JSON file (${module.default.length} groups):`, module.default);
           setData(module.default);
           // Save initial data to localStorage
           localStorage.setItem(storageKey, JSON.stringify(module.default));
+          console.log(`Saved fresh ${group} data to localStorage`);
         } catch (error) {
           console.error(`Error loading ${group}.json: `, error);
         }
@@ -62,15 +77,17 @@ export default function MuscleGroupPage() {
           <Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link>
           <button 
             onClick={() => {
-              if (window.confirm('Reset workout data for this muscle group?')) {
-                localStorage.removeItem(`workoutData_${group}`);
-                window.location.reload();
-              }
+              // Force clear localStorage and reload
+              localStorage.removeItem(`workoutData_${group}`);
+              window.location.reload();
             }}
-            style={{ marginLeft: '10px', padding: '5px', fontSize: '12px' }}
+            style={{ marginLeft: '10px', padding: '8px 12px', fontSize: '13px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
           >
-            Reset Data
+            🔄 Load Fresh Exercises
           </button>
+          <div style={{ marginTop: '5px', fontSize: '11px', color: '#666' }}>
+            Current muscle group: {group} | Loaded exercises: {data.length}
+          </div>
         </div>
         <div className="exercisegroup">
           <div className="exercisetabs">
