@@ -20,9 +20,19 @@ export default function Home() {
 
   const getNextWeekStart = () => {
     const today = new Date();
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - today.getDay() + 8);
-    return monday.toISOString().split('T')[0];
+    // Get the day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const dayOfWeek = today.getDay();
+    // Calculate days to add to get to next Monday
+    const daysToAdd = dayOfWeek === 0 ? 1 : (8 - dayOfWeek);
+    
+    const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysToAdd);
+    
+    // Format as YYYY-MM-DD using local time to avoid timezone issues
+    const year = monday.getFullYear();
+    const month = (monday.getMonth() + 1).toString().padStart(2, '0');
+    const day = monday.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
   };
 
   // Load initial data
@@ -139,6 +149,70 @@ export default function Home() {
     setShowPlanPopup(false);
   };
 
+  // Apply default workout split for next week
+  const applyDefaultSplit = () => {
+    const nextWeekStart = new Date(getNextWeekStart());
+    const workoutLabels = {
+      'upperbody': 'Upper Body',
+      'lowerbody': 'Lower Body',
+      'cardio': 'Cardio',
+      'abs': 'Abs'
+    };
+
+    // Define the default split: Upper/Lower with Cardio and Abs
+    // Index corresponds to days starting from Monday (0=Monday, 1=Tuesday, etc.)
+    const defaultSplit = [
+      ['upperbody'],      // Monday (index 0)
+      ['lowerbody'],      // Tuesday (index 1)
+      ['cardio'],         // Wednesday (index 2)
+      ['upperbody'],      // Thursday (index 3)
+      ['lowerbody'],      // Friday (index 4)
+      ['abs'],            // Saturday (index 5)
+      null                // Sunday (index 6) - Rest
+    ];
+
+    // Create the plan with actual dates
+    const newPlan = {};
+    const newCalendarEvents = [...calendarEvents];
+
+    // Remove existing planned events for next week
+    const nextWeekEnd = new Date(nextWeekStart);
+    nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
+    const filteredEvents = newCalendarEvents.filter(event => {
+      const eventDate = new Date(event.date);
+      return !(eventDate >= nextWeekStart && eventDate <= nextWeekEnd && event.isPlanned);
+    });
+
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(nextWeekStart);
+      day.setDate(nextWeekStart.getDate() + i);
+      const dateStr = day.toISOString().split('T')[0];
+      
+      if (defaultSplit[i]) {
+        newPlan[dateStr] = defaultSplit[i];
+        
+        // Add calendar events for each workout
+        defaultSplit[i].forEach(workoutType => {
+          const newEvent = {
+            title: workoutLabels[workoutType],
+            date: dateStr,
+            id: `plan_${dateStr}_${workoutType}`,
+            isPlanned: true,
+            backgroundColor: getWorkoutColor(workoutType),
+            borderColor: getWorkoutColor(workoutType)
+          };
+          filteredEvents.push(newEvent);
+        });
+      }
+    }
+
+    // Update state and localStorage
+    setNextWeekPlan(newPlan);
+    setCalendarEvents(filteredEvents);
+    localStorage.setItem(`weeklyPlan_${getNextWeekStart()}`, JSON.stringify(newPlan));
+    localStorage.setItem('workoutCalendarEvents', JSON.stringify(filteredEvents));
+  };
+
 
 
   // Get workout colors
@@ -214,6 +288,7 @@ export default function Home() {
             <h2 className="section-title">Next Week's Plan</h2>
             <WeeklyPlan 
               nextWeekPlan={nextWeekPlan}
+              onApplyDefaultSplit={applyDefaultSplit}
             />
           </div>
         </div>

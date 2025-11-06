@@ -874,6 +874,53 @@
   gap: 0.25rem;
 }
 
+/* Default Split Suggestion */
+.default-split-suggestion {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(52, 152, 219, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.suggestion-text {
+  color: #3498db;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.apply-split-btn {
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  margin-bottom: 0.75rem;
+}
+
+.apply-split-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+  background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+}
+
+.split-preview {
+  margin-top: 0.5rem;
+}
+
+.split-preview small {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  display: block;
+}
+
 /* Calendar css */
 
 /* Set the background and text color for the calendar */

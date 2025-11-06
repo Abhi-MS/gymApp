@@ -1,24 +1,42 @@
 import React from "react";
 
-function WeeklyPlan({ nextWeekPlan = {} }) {
+function WeeklyPlan({ nextWeekPlan = {}, onApplyDefaultSplit }) {
   // Get next week's Monday date as string
   const getNextWeekStart = () => {
     const today = new Date();
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - today.getDay() + 8); // +8 to get next Monday
-    return monday.toISOString().split('T')[0];
+    // Get the day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const dayOfWeek = today.getDay();
+    // Calculate days to add to get to next Monday
+    const daysToAdd = dayOfWeek === 0 ? 1 : (8 - dayOfWeek);
+    
+    const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysToAdd);
+    
+    // Format as YYYY-MM-DD using local time to avoid timezone issues
+    const year = monday.getFullYear();
+    const month = (monday.getMonth() + 1).toString().padStart(2, '0');
+    const day = monday.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
   };
 
   // Get days of next week
   const getNextWeekDays = () => {
     const days = [];
-    const weekStart = new Date(getNextWeekStart());
+    const weekStartStr = getNextWeekStart();
+    const weekStart = new Date(weekStartStr + 'T00:00:00'); // Add time to avoid timezone issues
     
     for (let i = 0; i < 7; i++) {
       const day = new Date(weekStart);
       day.setDate(weekStart.getDate() + i);
+      
+      // Format date consistently
+      const year = day.getFullYear();
+      const month = (day.getMonth() + 1).toString().padStart(2, '0');
+      const dayNum = day.getDate().toString().padStart(2, '0');
+      const dateStr = `${year}-${month}-${dayNum}`;
+      
       days.push({
-        date: day.toISOString().split('T')[0],
+        date: dateStr,
         dayName: day.toLocaleDateString('en-US', { weekday: 'long' }),
         dayShort: day.toLocaleDateString('en-US', { weekday: 'short' }),
         dayNumber: day.getDate(),
@@ -44,6 +62,18 @@ function WeeklyPlan({ nextWeekPlan = {} }) {
         <div className="no-plan-message">
           <p>📅 Next week is not planned yet</p>
           <span>Click on calendar days to plan your workouts</span>
+          <div className="default-split-suggestion">
+            <p className="suggestion-text">💡 Want a proven workout split?</p>
+            <button 
+              className="apply-split-btn"
+              onClick={onApplyDefaultSplit}
+            >
+              Apply Upper/Lower Split
+            </button>
+            <div className="split-preview">
+              <small>Mon: Upper Body • Tue: Lower Body • Wed: Cardio • Thu: Upper Body • Fri: Lower Body • Sat: Abs • Sun: Rest</small>
+            </div>
+          </div>
         </div>
       )}
       
