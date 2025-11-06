@@ -81,23 +81,8 @@ export default function MuscleGroupPage() {
 
   return (
     <>
+      <Link to="/home" className="back-button">← Home</Link>
       <div className="exercisepage">
-        <div className="hometab">
-          <Link to="/home" style={{ textDecoration: 'none', color: "black" }}>Home</Link>
-          <button 
-            onClick={() => {
-              // Force clear localStorage and reload
-              localStorage.removeItem(`workoutData_${group}`);
-              window.location.reload();
-            }}
-            style={{ marginLeft: '10px', padding: '8px 12px', fontSize: '13px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
-          >
-            🔄 Load Fresh Exercises
-          </button>
-          <div style={{ marginTop: '5px', fontSize: '11px', color: '#666' }}>
-            Current muscle group: {group} | Loaded exercises: {data.length}
-          </div>
-        </div>
         <div className="exercisegroup">
           <div className="exercisetabs">
             {tabs.map((tab) => (
@@ -111,9 +96,9 @@ export default function MuscleGroupPage() {
               </div>
             ))}
           </div>
-          <div className="exerciselist">
+          <div className="exerciselist" >
             {data.length ? (
-              <div className="exerciselist">
+              <div className="exerciselist" style={{ padding: '1rem' }}>
                 {data.map((row, index) => (
                   <div
                     className="bodysection"
@@ -136,26 +121,52 @@ export default function MuscleGroupPage() {
                   <div className="exercise-info">
                     <p id="exercise-name">{exercise.name}</p>
                     <div className="tracking">
-                      <p>Weight</p>
+                      <label>Weight (lbs)</label>
                       <div className="update">
-                        <button onClick={() => handleUpdate(exercise, 'weight', -1)}>-</button>
-                        <p>{exercise.weight}</p>
-                        <button onClick={() => handleUpdate(exercise, 'weight', 1)}>+</button>
+                        <button 
+                          className="update-btn decrease"
+                          onClick={() => handleUpdate(exercise, 'weight', -1)}
+                          disabled={exercise.weight <= 0}
+                        >
+                          −
+                        </button>
+                        <span className="value">{exercise.weight}</span>
+                        <button 
+                          className="update-btn increase"
+                          onClick={() => handleUpdate(exercise, 'weight', 1)}
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
                     <div className="tracking">
-                      <p>Reps</p>    
+                      <label>Reps</label>    
                       <div className="update">
-                        <button onClick={() => handleUpdate(exercise, 'reps', -1)}>-</button>
-                        {exercise.reps}
-                        <button onClick={() => handleUpdate(exercise, 'reps', 1)}>+</button>
+                        <button 
+                          className="update-btn decrease"
+                          onClick={() => handleUpdate(exercise, 'reps', -1)}
+                          disabled={exercise.reps <= 0}
+                        >
+                          −
+                        </button>
+                        <span className="value">{exercise.reps}</span>
+                        <button 
+                          className="update-btn increase"
+                          onClick={() => handleUpdate(exercise, 'reps', 1)}
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <p>Select a muscle group to see exercise images.</p>
+              <div className="no-selection">
+                <div className="no-selection-icon">💪</div>
+                <h3>Choose a Muscle Group</h3>
+                <p>Select a muscle group from the left panel to view exercises and start your workout!</p>
+              </div>
             )}
           </div>
         </div>
