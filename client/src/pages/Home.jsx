@@ -420,7 +420,8 @@ export default function Home() {
               onClick={() => navigateWeek(-1)}
               title="Previous Week"
             >
-              ← Previous Week
+              <span className="btn-text-long">← Previous Week</span>
+              <span className="btn-text-short">← Prev</span>
             </button>
             
             <div className="current-week-display">
@@ -440,7 +441,8 @@ export default function Home() {
               onClick={() => navigateWeek(1)}
               title="Next Week"
             >
-              Next Week →
+              <span className="btn-text-long">Next Week →</span>
+              <span className="btn-text-short">Next →</span>
             </button>
           </div>
 

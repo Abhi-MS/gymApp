@@ -1033,6 +1033,15 @@
   background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
 }
 
+/* Button text visibility for desktop */
+.week-nav-btn .btn-text-long {
+  display: inline;
+}
+
+.week-nav-btn .btn-text-short {
+  display: none;
+}
+
 .current-week-display {
   flex: 1;
   text-align: center;
@@ -1519,6 +1528,47 @@
     justify-content: center;
   }
 
+  /* Week Navigation Mobile Responsiveness */
+  .week-navigation {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .week-nav-btn {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.75rem;
+    min-height: 44px; /* iOS touch target minimum */
+    flex: 1;
+    max-width: none;
+  }
+
+  /* Shorter button text for mobile - hide long text, show short */
+  .week-nav-btn .btn-text-long {
+    display: none;
+  }
+
+  .week-nav-btn .btn-text-short {
+    display: inline;
+  }
+
+  .current-week-display {
+    order: -1; /* Show week info at top */
+    margin-bottom: 0.5rem;
+  }
+
+  .week-label {
+    display: block;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    margin-right: 0;
+  }
+
+  .week-dates {
+    font-size: 0.85rem;
+    display: block;
+  }
+
   /* Exercise page container for very small screens */
   .exercisepage {
     width: 95%;
@@ -1712,6 +1762,34 @@
     top: 1.25rem;
     left: 1.25rem;
     padding: 0.7rem 1.2rem;
+  }
+
+  /* Week Navigation for medium mobile */
+  .week-navigation {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  .week-nav-btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
+    min-height: 44px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .current-week-display {
+    flex: 1;
+    min-width: 0; /* Allow flex item to shrink */
+  }
+
+  .week-label {
+    font-size: 0.8rem;
+  }
+
+  .week-dates {
+    font-size: 0.9rem;
   }
 
   .exercisepage {

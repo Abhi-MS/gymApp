@@ -19,6 +19,11 @@ const CalendarComponent = ({ events = [], onDateClick }) => {
         height="65vh"
         events={events}
         dateClick={handleDateClick}
+        headerToolbar={{
+          left: 'prev,next',
+          center: 'title',
+          right: '' // Remove today button from right side
+        }}
       />
     </div>
   );
