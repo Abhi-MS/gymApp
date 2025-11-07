@@ -9,6 +9,14 @@ export default function MuscleGroupPage() {
   const handleMuscleGroupClick = (muscleGroup) => {
     setSelectedMuscleGroup(muscleGroup);
   };
+
+  // Add body class for exercise page
+  useEffect(() => {
+    document.body.classList.add('exercise-page');
+    return () => {
+      document.body.classList.remove('exercise-page');
+    };
+  }, []);
   // Find the selected muscle group data
   const selectedExercises = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || (data[0]?.ListEx || []);
 
@@ -20,7 +28,6 @@ export default function MuscleGroupPage() {
       
       if (group === 'upperbody' || group === 'lowerbody') {
         localStorage.removeItem(storageKey);
-        console.log(`Cleared localStorage for ${group} to force fresh load`);
       }
       
       const savedData = localStorage.getItem(storageKey);
@@ -32,7 +39,6 @@ export default function MuscleGroupPage() {
       
       if (savedData && !hasOldData) {
         // Use saved data from localStorage
-        console.log(`Loading ${group} from localStorage:`, JSON.parse(savedData));
         setData(JSON.parse(savedData));
       } else {
         // Load from JSON file if no saved data exists or force reload is needed
@@ -47,11 +53,9 @@ export default function MuscleGroupPage() {
           
           const fileName = fileNameMap[group] || group;
           const module = await import(`../jsonFiles/${fileName}.json`);
-          console.log(`Loading ${group} from JSON file (${module.default.length} groups):`, module.default);
           setData(module.default);
           // Save initial data to localStorage
           localStorage.setItem(storageKey, JSON.stringify(module.default));
-          console.log(`Saved fresh ${group} data to localStorage`);
         } catch (error) {
           console.error(`Error loading ${group}.json: `, error);
         }

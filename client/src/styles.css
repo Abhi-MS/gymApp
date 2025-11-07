@@ -296,6 +296,8 @@
   background-color: transparent;
   display: flex;
   min-height: 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px 15px 0 0;
 }
 
 .exercisetabs{
@@ -519,14 +521,14 @@
 }
 .back-button {
   position: fixed;
-  top: 1.5rem;
+  top: 5rem;
   left: 1.5rem;
   z-index: 1000;
   text-decoration: none;
   color: #ffffff;
   font-weight: 600;
   font-size: 0.9rem;
-  padding: 0.6rem 1.2rem;
+  padding: 0.8rem 1.4rem;
   background: rgba(43, 65, 98, 0.9);
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 20px;
@@ -552,9 +554,10 @@
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 5rem;
+  margin-top: 8rem;
   margin-bottom: 2rem;
-  height: calc(100vh - 8rem);
+  padding-top: 2rem;
+  height: calc(100vh - 13rem);
 }
 
 /* Calendar container */
@@ -1331,4 +1334,447 @@
   line-height: 1.5;
   max-width: 400px;
   color: rgba(255, 255, 255, 0.7);
+}
+
+/* Hide RepTrack title on mobile for exercise pages */
+@media (max-width: 768px) {
+  body.exercise-page .text {
+    display: none;
+  }
+  
+  body.exercise-page .overlay {
+    display: none;
+  }
+}
+
+/* Popup and Modal Mobile Responsiveness */
+@media (max-width: 480px) {
+  /* Planning popup for very small screens */
+  .plan-popup {
+    max-width: 95%;
+    width: 95%;
+    padding: 1.5rem 1rem;
+    margin: 1rem;
+    border-radius: 15px;
+  }
+
+  .plan-popup h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .plan-popup p {
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .workout-options-popup {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .workout-btn {
+    padding: 1.25rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 10px;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .clear-btn, .done-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+
+  /* Confirmation modal for very small screens */
+  .confirmation-modal {
+    max-width: 95%;
+    width: 95%;
+    margin: 1rem;
+    border-radius: 12px;
+  }
+
+  .confirmation-header {
+    padding: 1.25rem 1rem 0 1rem;
+  }
+
+  .confirmation-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .confirmation-content {
+    padding: 0.75rem 1rem;
+  }
+
+  .confirmation-content p {
+    font-size: 0.9rem;
+  }
+
+  .warning-text {
+    font-size: 0.85rem;
+  }
+
+  .confirmation-actions {
+    padding: 0 1rem 1.25rem 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cancel-btn, .confirm-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 0.95rem;
+    flex: none;
+  }
+
+  /* Default split suggestion for mobile */
+  .default-split-suggestion {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .suggestion-text {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .apply-split-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    width: 100%;
+  }
+
+  .split-preview small {
+    font-size: 0.7rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Planning popup for medium mobile screens */
+  .plan-popup {
+    max-width: 90%;
+    width: 90%;
+    padding: 1.75rem 1.5rem;
+  }
+
+  .workout-options-popup {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .workout-btn {
+    padding: 1.1rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  /* Confirmation modal for medium mobile screens */
+  .confirmation-modal {
+    max-width: 90%;
+    width: 90%;
+  }
+
+  .confirmation-actions {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .cancel-btn, .confirm-btn {
+    flex: 1;
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+/* Exercise Page Mobile Responsiveness */
+@media (max-width: 480px) {
+  /* General mobile optimizations */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+
+  /* Prevent iOS zoom on input focus */
+  input, select, textarea, button {
+    font-size: 16px !important;
+  }
+
+  /* Back button optimization for very small screens */
+  .back-button {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+    min-height: 44px; /* iOS touch target minimum */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Exercise page container for very small screens */
+  .exercisepage {
+    width: 95%;
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+    height: calc(100vh - 2rem);
+  }
+
+  /* Exercise group layout adjustments */
+  .exercisegroup {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Horizontal tabs for mobile */
+  .exercisetabs {
+    flex: none;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    order: -1;
+    background: linear-gradient(135deg, #1a2a3a 0%, #0f1419 100%);
+    border-radius: 15px 15px 0 0;
+    padding: 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .exercisetab, .activetab {
+    writing-mode: horizontal-tb;
+    transform: none;
+    border-radius: 8px;
+    flex: 1;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.75rem;
+    text-align: center;
+    min-height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .activetab {
+    background: linear-gradient(135deg, #2b4162 0%, #1e3a5f 100%);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Exercise list for mobile */
+  .exerciselist {
+    flex: none;
+    height: 120px;
+    margin-left: 0;
+    margin-top: -1px;
+    border-radius: 0;
+    padding: 0.5rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .bodysection {
+    padding: 0.75rem 0.5rem;
+    margin: 1px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  /* Exercises grid for mobile */
+  .exercises {
+    flex: 1;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0 0 15px 15px;
+    margin-top: -1px;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    overscroll-behavior: contain; /* Prevent scroll chaining */
+  }
+
+  /* Workout cards for mobile */
+  .workout {
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    margin: 0;
+    border-radius: 15px;
+  }
+
+  .exercise-img {
+    height: 160px;
+  }
+
+  .exercise-info {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  #exercise-name {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .tracking {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .tracking label {
+    font-size: 0.9rem;
+    min-width: auto;
+  }
+
+  .update {
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .update-btn {
+    width: 44px; /* iOS minimum touch target */
+    height: 44px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+
+  .value {
+    min-width: 40px;
+    font-size: 1.1rem;
+  }
+
+  /* No selection state for mobile */
+  .no-selection {
+    padding: 2rem 1rem;
+  }
+
+  .no-selection-icon {
+    font-size: 3rem;
+  }
+
+  .no-selection h3 {
+    font-size: 1.3rem;
+  }
+
+  .no-selection p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Medium mobile screens */
+@media (min-width: 481px) and (max-width: 768px) {
+  .back-button {
+    top: 1.25rem;
+    left: 1.25rem;
+    padding: 0.7rem 1.2rem;
+  }
+
+  .exercisepage {
+    width: 90%;
+    margin-top: 1.5rem;
+    padding-top: 0.5rem;
+    height: calc(100vh - 2.5rem);
+  }
+
+  .exercisegroup {
+    flex-direction: column;
+  }
+
+  /* Horizontal tabs for medium mobile */
+  .exercisetabs {
+    flex: none;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    order: -1;
+    background: linear-gradient(135deg, #1a2a3a 0%, #0f1419 100%);
+    border-radius: 15px 15px 0 0;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .exercisetab, .activetab {
+    writing-mode: horizontal-tb;
+    transform: none;
+    border-radius: 10px;
+    flex: 1;
+    padding: 1rem 0.75rem;
+    font-size: 0.85rem;
+    text-align: center;
+    min-height: 45px;
+  }
+
+  .exerciselist {
+    flex: none;
+    height: 140px;
+    margin-left: 0;
+    margin-top: -1px;
+    padding: 0.75rem;
+  }
+
+  .bodysection {
+    padding: 1rem;
+    font-size: 0.9rem;
+    border-radius: 10px;
+  }
+
+  .exercises {
+    flex: 1;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+    padding: 1.5rem;
+    margin-top: -1px;
+    border-radius: 0 0 15px 15px;
+  }
+
+  .workout {
+    width: 100%;
+    height: auto;
+    min-height: 350px;
+    margin: 0;
+  }
+
+  .exercise-img {
+    height: 180px;
+  }
+
+  .exercise-info {
+    padding: 1.25rem;
+  }
+
+  #exercise-name {
+    font-size: 1.05rem;
+  }
+
+  .update-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+/* Tablet landscape */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .exercisepage {
+    width: 85%;
+    margin-top: 7rem;
+    padding-top: 1.5rem;
+  }
+
+  .exercises {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .workout {
+    width: 100%;
+    height: auto;
+    min-height: 18rem;
+    margin: 0;
+  }
 }
