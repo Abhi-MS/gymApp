@@ -10,16 +10,18 @@ import "../../src/styles.css"
 
 function App() {
   return (
-    <div>
-    <Header />
-    <Router basename="/gymApp">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />}/>
-          <Route path="/:group" element={<Exercises />} />
-          <Route path="*" element={<NoPage />}/>
-        </Routes>
-      </Router>
+    <div className="app-wrapper">
+      <div className="content-wrapper">
+        <Header />
+        <Router basename="/gymApp">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />}/>
+            <Route path="/:group" element={<Exercises />} />
+            <Route path="*" element={<NoPage />}/>
+          </Routes>
+        </Router>
+      </div>
       <Footer />
     </div>
   );
