@@ -412,39 +412,6 @@ export default function Home() {
         {/* Calendar Section */}
         <div className="calendar-section">
           <h2 className="section-title">Workout Calendar</h2>
-          
-          {/* Week Navigation */}
-          <div className="week-navigation">
-            <button 
-              className="week-nav-btn"
-              onClick={() => navigateWeek(-1)}
-              title="Previous Week"
-            >
-              <span className="btn-text-long">← Previous Week</span>
-              <span className="btn-text-short">← Prev</span>
-            </button>
-            
-            <div className="current-week-display">
-              <span className="week-label">Viewing: </span>
-              <span className="week-dates">
-                {selectedWeekStart ? (() => {
-                  const start = new Date(selectedWeekStart + 'T00:00:00');
-                  const end = new Date(start);
-                  end.setDate(start.getDate() + 6);
-                  return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-                })() : 'Loading...'}
-              </span>
-            </div>
-            
-            <button 
-              className="week-nav-btn"
-              onClick={() => navigateWeek(1)}
-              title="Next Week"
-            >
-              <span className="btn-text-long">Next Week →</span>
-              <span className="btn-text-short">Next →</span>
-            </button>
-          </div>
 
           <div className="calendar">
             <CalendarComponent 
@@ -452,6 +419,39 @@ export default function Home() {
               onDateClick={handleCalendarDateClick}
             />
           </div>
+        </div>
+
+        {/* Week Navigation - Moved near Weekly Plan */}
+        <div className="week-navigation">
+          <button 
+            className="week-nav-btn"
+            onClick={() => navigateWeek(-1)}
+            title="Previous Week"
+          >
+            <span className="btn-text-long">← Previous Week</span>
+            <span className="btn-text-short">← Prev</span>
+          </button>
+          
+          <div className="current-week-display">
+            <span className="week-label">Viewing: </span>
+            <span className="week-dates">
+              {selectedWeekStart ? (() => {
+                const start = new Date(selectedWeekStart + 'T00:00:00');
+                const end = new Date(start);
+                end.setDate(start.getDate() + 6);
+                return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+              })() : 'Loading...'}
+            </span>
+          </div>
+          
+          <button 
+            className="week-nav-btn"
+            onClick={() => navigateWeek(1)}
+            title="Next Week"
+          >
+            <span className="btn-text-long">Next Week →</span>
+            <span className="btn-text-short">Next →</span>
+          </button>
         </div>
 
         {/* Selected Week Plan Section */}
