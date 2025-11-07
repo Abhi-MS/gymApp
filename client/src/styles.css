@@ -1923,7 +1923,7 @@
     border-radius: 0 0 15px 15px;
     margin-top: -1px;
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    overscroll-behavior: contain; /* Prevent scroll chaining */
+    overscroll-behavior: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory; /* Snap to cards like carousel */
     scroll-padding: 1rem; /* Center cards properly */
@@ -2177,7 +2177,7 @@
   }
 
   .exercises {
-    flex: 1;
+    flex: 0 0 50%;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
@@ -2217,7 +2217,6 @@
     flex: 0 0 auto;
     width: calc(100vw - 5rem); /* Full width minus padding and gap */
     max-width: 300px;
-    height: auto;
     min-height: 350px;
     margin: 0;
     scroll-snap-align: center; /* Center alignment for better positioning */
