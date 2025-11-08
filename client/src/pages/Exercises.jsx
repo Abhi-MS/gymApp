@@ -23,25 +23,17 @@ export default function MuscleGroupPage() {
   // Load and save data to localStorage
   useEffect(() => {
     const loadWorkoutData = async () => {
-      // TEMPORARY FIX: Always clear cache for upperbody and lowerbody to force fresh load
+      // TEMPORARY FIX: Always clear cache to force fresh load with new structure
       const storageKey = `workoutData_${group}`;
-      
-      if (group === 'upperbody' || group === 'lowerbody') {
-        localStorage.removeItem(storageKey);
-      }
+      localStorage.removeItem(storageKey);
       
       const savedData = localStorage.getItem(storageKey);
       
-      // Check if we need to force reload due to outdated exercise names
-      const hasOldData = savedData && JSON.parse(savedData).length > 0 && 
-                         JSON.parse(savedData)[0].ListEx && 
-                         JSON.parse(savedData)[0].ListEx[0].name.includes("Exercise");
-      
-      if (savedData && !hasOldData) {
+      if (savedData) {
         // Use saved data from localStorage
         setData(JSON.parse(savedData));
       } else {
-        // Load from JSON file if no saved data exists or force reload is needed
+        // Load from JSON file if no saved data exists
         try {
           // Map tab names to actual file names
           const fileNameMap = {
@@ -124,44 +116,144 @@ export default function MuscleGroupPage() {
                   </div>
                   <div className="exercise-info">
                     <p id="exercise-name">{exercise.name}</p>
-                    <div className="tracking">
-                      <label>Weight (lbs)</label>
-                      <div className="update">
-                        <button 
-                          className="update-btn decrease"
-                          onClick={() => handleUpdate(exercise, 'weight', -1)}
-                          disabled={exercise.weight <= 0}
-                        >
-                          −
-                        </button>
-                        <span className="value">{exercise.weight}</span>
-                        <button 
-                          className="update-btn increase"
-                          onClick={() => handleUpdate(exercise, 'weight', 1)}
-                        >
-                          +
-                        </button>
+                    
+                    {/* Show weight field only if exercise has weight property */}
+                    {exercise.hasOwnProperty('weight') && (
+                      <div className="tracking">
+                        <label>Weight (lbs)</label>
+                        <div className="update">
+                          <button 
+                            className="update-btn decrease"
+                            onClick={() => handleUpdate(exercise, 'weight', -1)}
+                            disabled={exercise.weight <= 0}
+                          >
+                            −
+                          </button>
+                          <span className="value">{exercise.weight}</span>
+                          <button 
+                            className="update-btn increase"
+                            onClick={() => handleUpdate(exercise, 'weight', 1)}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="tracking">
-                      <label>Reps</label>    
-                      <div className="update">
-                        <button 
-                          className="update-btn decrease"
-                          onClick={() => handleUpdate(exercise, 'reps', -1)}
-                          disabled={exercise.reps <= 0}
-                        >
-                          −
-                        </button>
-                        <span className="value">{exercise.reps}</span>
-                        <button 
-                          className="update-btn increase"
-                          onClick={() => handleUpdate(exercise, 'reps', 1)}
-                        >
-                          +
-                        </button>
+                    )}
+                    
+                    {/* Show reps field for strength/bodyweight exercises */}
+                    {exercise.hasOwnProperty('reps') && (
+                      <div className="tracking">
+                        <label>Reps</label>    
+                        <div className="update">
+                          <button 
+                            className="update-btn decrease"
+                            onClick={() => handleUpdate(exercise, 'reps', -1)}
+                            disabled={exercise.reps <= 0}
+                          >
+                            −
+                          </button>
+                          <span className="value">{exercise.reps}</span>
+                          <button 
+                            className="update-btn increase"
+                            onClick={() => handleUpdate(exercise, 'reps', 1)}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    )}
+                    
+                    {/* Show sets field for strength/bodyweight exercises */}
+                    {exercise.hasOwnProperty('sets') && (
+                      <div className="tracking">
+                        <label>Sets</label>    
+                        <div className="update">
+                          <button 
+                            className="update-btn decrease"
+                            onClick={() => handleUpdate(exercise, 'sets', -1)}
+                            disabled={exercise.sets <= 0}
+                          >
+                            −
+                          </button>
+                          <span className="value">{exercise.sets}</span>
+                          <button 
+                            className="update-btn increase"
+                            onClick={() => handleUpdate(exercise, 'sets', 1)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Show duration field for cardio exercises */}
+                    {exercise.hasOwnProperty('duration') && (
+                      <div className="tracking">
+                        <label>Duration (min)</label>    
+                        <div className="update">
+                          <button 
+                            className="update-btn decrease"
+                            onClick={() => handleUpdate(exercise, 'duration', -1)}
+                            disabled={exercise.duration <= 0}
+                          >
+                            −
+                          </button>
+                          <span className="value">{exercise.duration}</span>
+                          <button 
+                            className="update-btn increase"
+                            onClick={() => handleUpdate(exercise, 'duration', 1)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Show distance field for cardio exercises */}
+                    {exercise.hasOwnProperty('distance') && (
+                      <div className="tracking">
+                        <label>Distance (miles)</label>    
+                        <div className="update">
+                          <button 
+                            className="update-btn decrease"
+                            onClick={() => handleUpdate(exercise, 'distance', -0.1)}
+                            disabled={exercise.distance <= 0}
+                          >
+                            −
+                          </button>
+                          <span className="value">{exercise.distance.toFixed(1)}</span>
+                          <button 
+                            className="update-btn increase"
+                            onClick={() => handleUpdate(exercise, 'distance', 0.1)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Show calories field for cardio exercises */}
+                    {exercise.hasOwnProperty('calories') && (
+                      <div className="tracking">
+                        <label>Calories</label>    
+                        <div className="update">
+                          <button 
+                            className="update-btn decrease"
+                            onClick={() => handleUpdate(exercise, 'calories', -10)}
+                            disabled={exercise.calories <= 0}
+                          >
+                            −
+                          </button>
+                          <span className="value">{exercise.calories}</span>
+                          <button 
+                            className="update-btn increase"
+                            onClick={() => handleUpdate(exercise, 'calories', 10)}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))
@@ -183,7 +275,12 @@ export default function MuscleGroupPage() {
       ...group,
       ListEx: group.ListEx.map(item =>
         item.name === exercise.name
-          ? { ...item, [field]: Math.max(0, item[field] + change) } // Prevent negative values
+          ? { 
+              ...item, 
+              [field]: field === 'distance' 
+                ? Math.max(0, Number((item[field] + change).toFixed(1)))
+                : Math.max(0, item[field] + change)
+            }
           : item
       )
     }));

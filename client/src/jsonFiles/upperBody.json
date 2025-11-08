@@ -6,25 +6,29 @@
         "name": "Dumbbell Bicep Curls",
         "url": "https://res.cloudinary.com/peloton-cycle/image/fetch/f_auto,c_limit,w_3840,q_90/https://downloads.ctfassets.net/6ilvqec50fal/JSWi5keUr3w5myEInfYdN/c1dadb9e2721365e62ce0f8c549a5924/overhead-press.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Hammer Curls",
         "url": "https://img.freepik.com/free-photo/young-fitness-man-studio_7502-5008.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Barbell Curls",
         "url": "https://img.freepik.com/free-photo/young-fitness-man-studio_7502-5008.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Cable Bicep Curls",
         "url": "https://res.cloudinary.com/peloton-cycle/image/fetch/f_auto,c_limit,w_3840,q_90/https://downloads.ctfassets.net/6ilvqec50fal/JSWi5keUr3w5myEInfYdN/c1dadb9e2721365e62ce0f8c549a5924/overhead-press.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       }
     ]
   },
@@ -34,26 +38,28 @@
       {
         "name": "Tricep Dips",
         "url": "https://images.squarespace-cdn.com/content/v1/6500d3fc65f3cc7d381e3560/6940fcd1-51e8-4de6-b074-814e6a983946/1B5A3413.jpg",
-        "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Overhead Tricep Extension",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Tricep Pushdowns",
         "url": "https://images.squarespace-cdn.com/content/v1/6500d3fc65f3cc7d381e3560/6940fcd1-51e8-4de6-b074-814e6a983946/1B5A3413.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Close-Grip Push-ups",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
-        "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       }
     ]
   },
@@ -64,31 +70,36 @@
         "name": "Shoulder Press",
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGK4HUN6v0ZveNH1oRFvszmPgb3G3ktRLOOA&s",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Lateral Raises",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Front Raises",
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGK4HUN6v0ZveNH1oRFvszmPgb3G3ktRLOOA&s",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Arnold Press",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Upright Rows",
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGK4HUN6v0ZveNH1oRFvszmPgb3G3ktRLOOA&s",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       }
     ]
   },
@@ -98,26 +109,29 @@
       {
         "name": "Pull-ups",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
-        "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Lat Pulldowns",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Seated Cable Rows",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Bent-Over Rows",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       }
     ]
   },
@@ -128,31 +142,34 @@
         "name": "Bench Press",
         "url": "https://blogscdn.thehut.net/app/uploads/sites/419/2020/08/iStock-1162195270opt_hero_1596540610.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Push-ups",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
-        "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Incline Bench Press",
         "url": "https://blogscdn.thehut.net/app/uploads/sites/419/2020/08/iStock-1162195270opt_hero_1596540610.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Chest Flyes",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Dips",
         "url": "https://blogscdn.thehut.net/app/uploads/sites/419/2020/08/iStock-1162195270opt_hero_1596540610.jpg",
-        "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       }
     ]
   },
@@ -163,25 +180,28 @@
         "name": "Deadlifts",
         "url": "https://res.cloudinary.com/peloton-cycle/image/fetch/f_auto,c_limit,w_3840,q_90/https://downloads.ctfassets.net/6ilvqec50fal/JSWi5keUr3w5myEInfYdN/c1dadb9e2721365e62ce0f8c549a5924/overhead-press.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Romanian Deadlifts",
         "url": "https://hips.hearstapps.com/hmg-prod/images/hpb-equipment-003-1581099030.jpg",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Hyperextensions",
         "url": "https://i.imgur.com/PG6vgpl.gif",
-        "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       },
       {
         "name": "Good Mornings",
         "url": "https://i.imgur.com/LWguLXC.gif",
         "weight": 0,
-        "reps": 0
+        "reps": 0,
+        "sets": 0
       }
     ]
   }
