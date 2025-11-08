@@ -52,10 +52,10 @@ function WeeklyPlan({
   };
 
   const workoutOptions = [
-    { key: 'cardio', label: 'Cardio', icon: '❤️', color: '#e74c3c' },
-    { key: 'upperbody', label: 'Upper', icon: '💪', color: '#3498db' },
-    { key: 'lowerbody', label: 'Lower', icon: '🦵', color: '#2ecc71' },
-    { key: 'abs', label: 'Abs', icon: '🔥', color: '#f39c12' }
+    { key: 'cardio', label: 'Cardio', icon: '❤️', color: '#e74c3c', group: 'Cardiovascular' },
+    { key: 'upperbody', label: 'Upper Body', icon: '💪', color: '#3498db', group: 'Upper Body' },
+    { key: 'lowerbody', label: 'Lower Body', icon: '🦵', color: '#2ecc71', group: 'Lower Body' },
+    { key: 'abs', label: 'Abs', icon: '🔥', color: '#f39c12', group: 'Abs' }
   ];
 
   const weekDays = getWeekDays();
@@ -137,19 +137,22 @@ function WeeklyPlan({
               <div className="planned-workout">
                 {Array.isArray(weekPlan[day.date]) ? (
                   <div className="multiple-workouts">
-                    {weekPlan[day.date].map((workout, index) => (
-                      <span key={workout} className="workout-item">
-                        {workoutOptions.find(w => w.key === workout)?.icon}
-                        {workoutOptions.find(w => w.key === workout)?.label}
-                        {index < weekPlan[day.date].length - 1 && ', '}
-                      </span>
-                    ))}
+                    {weekPlan[day.date].map((workout, index) => {
+                      const workoutInfo = workoutOptions.find(w => w.key === workout);
+                      return (
+                        <div key={workout} className="workout-item">
+                          <span className="workout-icon">{workoutInfo?.icon}</span>
+                          <span className="workout-label">{workoutInfo?.label}</span>
+                          {index < weekPlan[day.date].length - 1 && <span className="workout-separator">, </span>}
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : (
-                  <>
-                    {workoutOptions.find(w => w.key === weekPlan[day.date])?.icon}
-                    <span>{workoutOptions.find(w => w.key === weekPlan[day.date])?.label}</span>
-                  </>
+                  <div className="single-workout">
+                    <span className="workout-icon">{workoutOptions.find(w => w.key === weekPlan[day.date])?.icon}</span>
+                    <span className="workout-label">{workoutOptions.find(w => w.key === weekPlan[day.date])?.label}</span>
+                  </div>
                 )}
               </div>
             ) : (

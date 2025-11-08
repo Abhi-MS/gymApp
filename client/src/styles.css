@@ -1166,6 +1166,7 @@
 .day-card.planned {
   border-color: rgba(46, 204, 113, 0.5);
   background: rgba(46, 204, 113, 0.1);
+  min-height: 90px;
 }
 
 .day-header {
@@ -1189,12 +1190,53 @@
 
 .planned-workout {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
   margin-bottom: 0.5rem;
   color: #ffffff;
   font-size: 0.8rem;
   font-weight: 500;
+}
+
+.single-workout,
+.workout-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.workout-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.workout-label {
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.workout-group {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.workout-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.multiple-workouts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.workout-separator {
+  margin: 0 0.2rem;
 }
 
 .plan-workout {

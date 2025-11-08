@@ -40,39 +40,89 @@ export default function Home() {
     return `${year}-${month}-${day}`;
   };
 
+  // Create default workout plan for a specific week
+  const createDefaultWeekPlan = useCallback((weekStartStr) => {
+    const weekStart = new Date(weekStartStr + 'T00:00:00');
+    
+    // Define the default split: Upper/Lower with Cardio and Abs
+    const defaultSplit = [
+      ['upperbody'],      // Monday
+      ['lowerbody'],      // Tuesday  
+      ['cardio'],         // Wednesday
+      ['upperbody'],      // Thursday
+      ['lowerbody'],      // Friday
+      ['abs'],            // Saturday
+      null                // Sunday - Rest
+    ];
+
+    // Create the plan with actual dates
+    const newPlan = {};
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(weekStart);
+      day.setDate(weekStart.getDate() + i);
+      const dateStr = day.toISOString().split('T')[0];
+      
+      if (defaultSplit[i]) {
+        newPlan[dateStr] = defaultSplit[i];
+      }
+    }
+
+    // Save to localStorage
+    localStorage.setItem(`weeklyPlan_${weekStartStr}`, JSON.stringify(newPlan));
+    
+    return newPlan;
+  }, []);
+
   // Select a week to display in the sidebar
   const selectWeek = useCallback((weekStartStr) => {
     setSelectedWeekStart(weekStartStr);
     
-    // Load the week's plan from localStorage and events
-    const weekPlan = {};
-    const weekStart = new Date(weekStartStr + 'T00:00:00');
+    // Load the week's plan from localStorage
+    let weekPlan = {};
     
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(weekStart);
-      day.setDate(weekStart.getDate() + i);
-      const year = day.getFullYear();
-      const month = (day.getMonth() + 1).toString().padStart(2, '0');
-      const dayNum = day.getDate().toString().padStart(2, '0');
-      const dateStr = `${year}-${month}-${dayNum}`;
-      
-      // Check localStorage first
-      const savedWorkouts = localStorage.getItem(dateStr);
-      if (savedWorkouts) {
-        weekPlan[dateStr] = JSON.parse(savedWorkouts);
+    // First, try to load the complete week plan
+    const savedWeekPlan = localStorage.getItem(`weeklyPlan_${weekStartStr}`);
+    if (savedWeekPlan) {
+      weekPlan = JSON.parse(savedWeekPlan);
+    } else {
+      // If this is the next week and no plan exists, automatically create default
+      if (weekStartStr === getNextWeekStart()) {
+        createDefaultWeekPlan(weekStartStr);
+        const newSavedPlan = localStorage.getItem(`weeklyPlan_${weekStartStr}`);
+        if (newSavedPlan) {
+          weekPlan = JSON.parse(newSavedPlan);
+        }
       } else {
-        // Check calendar events
-        const dayEvents = calendarEvents.filter(event => 
-          event.date === dateStr && event.isPlanned
-        );
-        if (dayEvents.length > 0) {
-          weekPlan[dateStr] = dayEvents.map(event => event.workouts || []).flat();
+        // For other weeks, fallback: check individual date entries and calendar events
+        const weekStart = new Date(weekStartStr + 'T00:00:00');
+        
+        for (let i = 0; i < 7; i++) {
+          const day = new Date(weekStart);
+          day.setDate(weekStart.getDate() + i);
+          const year = day.getFullYear();
+          const month = (day.getMonth() + 1).toString().padStart(2, '0');
+          const dayNum = day.getDate().toString().padStart(2, '0');
+          const dateStr = `${year}-${month}-${dayNum}`;
+          
+          // Check localStorage for individual date
+          const savedWorkouts = localStorage.getItem(dateStr);
+          if (savedWorkouts) {
+            weekPlan[dateStr] = JSON.parse(savedWorkouts);
+          } else {
+            // Check calendar events
+            const dayEvents = calendarEvents.filter(event => 
+              event.date === dateStr && event.isPlanned
+            );
+            if (dayEvents.length > 0) {
+              weekPlan[dateStr] = dayEvents.map(event => event.workouts || []).flat();
+            }
+          }
         }
       }
     }
     
     setSelectedWeekPlan(weekPlan);
-  }, [calendarEvents]);
+  }, [calendarEvents, createDefaultWeekPlan]);
 
   // Load initial data
   useEffect(() => {
@@ -209,6 +259,7 @@ export default function Home() {
     setShowPlanPopup(false);
   };
 
+  // Create default workout plan for a specific week
   // Apply default workout split for next week
   const applyDefaultSplit = () => {
     const nextWeekStart = new Date(getNextWeekStart());
@@ -319,8 +370,8 @@ export default function Home() {
     setSelectedWeekPlan({});
     setShowClearConfirm(false);
     
-    // Refresh the selected week to show the cleared state
-    setTimeout(() => selectWeek(selectedWeekStart), 100);
+    // Immediately refresh the selected week to show the cleared state
+    selectWeek(selectedWeekStart);
   };
 
   const cancelClearWeek = () => {
