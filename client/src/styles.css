@@ -3037,41 +3037,512 @@
   background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
 }
 
-/* Mobile responsiveness for Progress page */
-@media (max-width: 768px) {
+/* Progress Page Responsive Design */
+
+/* Extra Small Mobile (320px - 480px) */
+@media (max-width: 480px) {
   .progress-page {
-    padding: 1rem;
+    padding: 0.75rem;
   }
-
+  
   .progress-header h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
   }
-
+  
+  .progress-header p {
+    font-size: 0.95rem;
+  }
+  
   .progress-controls {
+    padding: 1rem 0.75rem;
+    gap: 1rem;
     flex-direction: column;
     align-items: stretch;
   }
-
-  .exercise-filter {
+  
+  .exercise-selector {
+    width: 100%;
+  }
+  
+  .exercise-selector select {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+  
+  .metric-selector {
+    width: 100%;
+  }
+  
+  .metric-tabs {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .metric-tab {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.6rem;
+    min-width: 70px;
+    flex: 1;
+    max-width: 120px;
+  }
+  
+  .progress-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .stat-card {
+    padding: 0.75rem 0.4rem;
+  }
+  
+  .stat-value {
+    font-size: 1.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+  }
+  
+  .chart-container {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+  }
+  
+  .chart-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
   }
-
-  .exercise-filter select {
-    min-width: 100%;
+  
+  .chart-header h3 {
+    font-size: 1.1rem;
   }
+  
+  .chart-area {
+    height: 200px;
+    padding-top: 1rem;
+  }
+  
+  .chart-y-axis {
+    width: 35px;
+  }
+  
+  .y-axis-label {
+    font-size: 0.7rem;
+  }
+  
+  .chart-bars {
+    gap: 4px;
+  }
+  
+  .chart-bar {
+    min-width: 15px;
+  }
+  
+  .bar-label {
+    font-size: 0.55rem;
+    margin-top: 0.25rem;
+  }
+  
+  .bar-value {
+    font-size: 0.7rem;
+  }
+  
+  /* Mobile Tooltip Adjustments */
+  .chart-tooltip {
+    min-width: 140px;
+    max-width: 85vw;
+    padding: 0.6rem;
+    font-size: 0.8rem;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  
+  .tooltip-date {
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .tooltip-metrics {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  
+  .tooltip-metric {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.35rem;
+  }
+  
+  /* Touch-friendly tooltips on mobile */
+  .chart-bar:active .chart-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+  }
+  
+  .no-data, .select-exercise {
+    padding: 2rem 1rem;
+  }
+  
+  .no-data-icon, .select-icon {
+    font-size: 3rem;
+  }
+  
+  .no-data h3, .select-exercise h3 {
+    font-size: 1.25rem;
+  }
+  
+  .no-data p, .select-exercise p {
+    font-size: 0.9rem;
+  }
+}
 
-  .trend-indicators {
+/* Small Tablet Portrait (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .progress-page {
+    padding: 1rem;
+  }
+  
+  .progress-header h1 {
+    font-size: 2rem;
+  }
+  
+  .progress-controls {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+  
+  .exercise-selector {
+    width: 100%;
+  }
+  
+  .metric-selector {
+    width: 100%;
+  }
+  
+  .metric-tabs {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
-
-  .entry-header {
+  
+  .metric-tab {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    flex: 1;
+    min-width: 80px;
+    max-width: 140px;
+  }
+  
+  .progress-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+  
+  .stat-card {
+    padding: 1rem 0.5rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .chart-container {
+    padding: 1rem;
+  }
+  
+  .chart-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.75rem;
   }
+  
+  .chart-area {
+    height: 250px;
+    padding-top: 1.5rem;
+  }
+  
+  .chart-y-axis {
+    width: 40px;
+  }
+  
+  .chart-bars {
+    gap: 6px;
+  }
+  
+  .chart-bar {
+    min-width: 18px;
+  }
+  
+  .bar-label {
+    font-size: 0.6rem;
+  }
+  
+  .chart-tooltip {
+    min-width: 160px;
+    max-width: 250px;
+    padding: 0.7rem;
+  }
+  
+  .tooltip-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
-  .entry-values {
-    justify-content: center;
+/* Medium Tablet Landscape (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .progress-page {
+    padding: 1.5rem;
+  }
+  
+  .progress-header h1 {
+    font-size: 2.25rem;
+  }
+  
+  .progress-controls {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+  
+  .exercise-selector {
+    flex: 1;
+    max-width: 300px;
+  }
+  
+  .metric-selector {
+    flex: 2;
+  }
+  
+  .metric-tabs {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .metric-tab {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .progress-stats {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .chart-area {
+    height: 280px;
+    padding-top: 1.75rem;
+  }
+  
+  .chart-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .chart-bars {
+    gap: 8px;
+  }
+  
+  .chart-bar {
+    min-width: 20px;
+  }
+}
+
+/* Large Desktop (1025px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .progress-page {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .progress-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .progress-controls {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  .exercise-selector {
+    flex: 1;
+    max-width: 350px;
+  }
+  
+  .metric-selector {
+    flex: 2;
+  }
+  
+  .metric-tabs {
+    justify-content: flex-start;
+  }
+  
+  .metric-tab {
+    font-size: 0.9rem;
+    padding: 0.55rem 1.1rem;
+  }
+  
+  .progress-stats {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .chart-area {
+    height: 300px;
+    padding-top: 2rem;
+  }
+  
+  .chart-bars {
+    gap: 10px;
+  }
+  
+  .chart-bar {
+    min-width: 22px;
+  }
+  
+  .chart-tooltip {
+    min-width: 180px;
+    max-width: 240px;
+  }
+}
+
+/* Extra Large Desktop (1441px+) */
+@media (min-width: 1441px) {
+  .progress-page {
+    padding: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .progress-header h1 {
+    font-size: 3rem;
+  }
+  
+  .progress-header p {
+    font-size: 1.2rem;
+  }
+  
+  .progress-controls {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 3rem;
+    padding: 2.5rem;
+  }
+  
+  .exercise-selector {
+    flex: 1;
+    max-width: 400px;
+  }
+  
+  .exercise-selector select {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .metric-selector {
+    flex: 2;
+  }
+  
+  .metric-tab {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+  
+  .progress-stats {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  
+  .stat-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .stat-value {
+    font-size: 2.5rem;
+  }
+  
+  .stat-label {
+    font-size: 1rem;
+  }
+  
+  .chart-container {
+    padding: 2.5rem;
+  }
+  
+  .chart-header h3 {
+    font-size: 1.75rem;
+  }
+  
+  .chart-area {
+    height: 350px;
+    padding-top: 2.5rem;
+  }
+  
+  .chart-y-axis {
+    width: 60px;
+  }
+  
+  .y-axis-label {
+    font-size: 0.9rem;
+  }
+  
+  .chart-bars {
+    gap: 12px;
+  }
+  
+  .chart-bar {
+    min-width: 25px;
+  }
+  
+  .bar-value {
+    font-size: 0.9rem;
+  }
+  
+  .bar-label {
+    font-size: 0.8rem;
+  }
+  
+  .chart-tooltip {
+    min-width: 200px;
+    max-width: 260px;
+    padding: 1rem;
+  }
+  
+  .tooltip-date {
+    font-size: 0.95rem;
+  }
+  
+  .tooltip-metric {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+/* High DPI / Retina Display Optimizations */
+@media (min-resolution: 2dppx) {
+  .chart-bar,
+  .metric-tab,
+  .stat-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chart-tooltip {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 }
 
