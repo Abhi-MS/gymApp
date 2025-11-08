@@ -22,9 +22,18 @@
 ### **Live Demo Video**
 *See the app in action - tracking reps and managing workouts*
 
-https://github.com/user-attachments/assets/RepTrack.mp4
+<!-- Method 1: Direct video embedding (recommended) -->
+<video width="100%" controls>
+  <source src="./client/public/RepTrack.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
-> **Note:** Click the video above to see a full demonstration of the app's core features including exercise tracking, rep counting, and workout management.
+<!-- Alternative Method 2: GitHub raw link -->
+<!-- 
+https://github.com/Abhi-MS/gymApp/raw/master/client/public/RepTrack.mp4
+-->
+
+> **Note:** The video above demonstrates the app's core features including exercise tracking, rep counting, and workout management.
 
 </div>
 
