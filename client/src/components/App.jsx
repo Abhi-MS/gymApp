@@ -4,6 +4,7 @@ import Header from "./Header";
 import Home from "../pages/Home"
 import NoPage from "../pages/NoPage";
 import Exercises from "../pages/Exercises";
+import Progress from "../pages/Progress";
 import Footer from "./Footer";
 import "../../src/styles.css"
 
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />}/>
+            <Route path="/progress" element={<Progress />}/>
             <Route path="/:group" element={<Exercises />} />
             <Route path="*" element={<NoPage />}/>
           </Routes>

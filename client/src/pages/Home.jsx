@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Group from "../components/Group";
 import { Link } from "react-router-dom";
 import CalendarComponent from "../components/Calendar";
 import WeeklyPlan from "../components/WeeklyPlan";
@@ -13,19 +12,9 @@ export default function Home() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
-  // Helper functions
-  const getCurrentWeekStart = () => {
-    const today = new Date();
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - today.getDay() + 1);
-    return monday.toISOString().split('T')[0];
-  };
-
   const getNextWeekStart = () => {
     const today = new Date();
-    // Get the day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
     const dayOfWeek = today.getDay();
-    // Calculate days to add to get to next Monday
     const daysToAdd = dayOfWeek === 0 ? 1 : (8 - dayOfWeek);
     
     const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + daysToAdd);
@@ -404,6 +393,13 @@ export default function Home() {
                 <div className="workout-icon">🔥</div>
                 <h3>Abs</h3>
                 <p>Core strengthening</p>
+              </div>
+            </Link>
+            <Link to="/progress" className="group-link">
+              <div className="workout-card progress-card">
+                <div className="workout-icon">📊</div>
+                <h3>Progress</h3>
+                <p>Track your improvements</p>
               </div>
             </Link>
           </div>

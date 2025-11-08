@@ -5,35 +5,92 @@ export default function MuscleGroupPage() {
   const { group } = useParams(); 
   const [data, setData] = useState([]);
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState({
+    exercise: null,
+    editValues: {}
+  });
+
+  // Define all possible tabs
+  const tabs = [
+    { path: 'cardio', label: 'Cardio' },
+    { path: 'upperbody', label: 'Upper Body' },
+    { path: 'abs', label: 'Abs' },
+    { path: 'lowerbody', label: 'Lower Body' }
+  ];
 
   const handleMuscleGroupClick = (muscleGroup) => {
     setSelectedMuscleGroup(muscleGroup);
   };
 
-  // Add body class for exercise page
-  useEffect(() => {
-    document.body.classList.add('exercise-page');
-    return () => {
-      document.body.classList.remove('exercise-page');
-    };
-  }, []);
+  // Open modal for editing all exercise values
+  const openModal = (exercise) => {
+    const editValues = {};
+    ['weight', 'reps', 'sets', 'duration', 'distance', 'calories'].forEach(field => {
+      if (exercise.hasOwnProperty(field)) {
+        editValues[field] = exercise[field].toString();
+      }
+    });
+    
+    setModalData({ exercise, editValues });
+    setShowModal(true);
+  };
+
+  // Close modal without saving
+  const closeModal = () => {
+    setShowModal(false);
+    setModalData({ exercise: null, editValues: {} });
+  };
+
+  // Update individual field in modal
+  const updateModalField = (field, value) => {
+    setModalData(prev => ({
+      ...prev,
+      editValues: { ...prev.editValues, [field]: value }
+    }));
+  };
+
+  // Save all modal values at once
+  const saveAllModalValues = () => {
+    const updatedExercise = { ...modalData.exercise };
+    
+    // Update all fields
+    Object.entries(modalData.editValues).forEach(([field, value]) => {
+      const numericValue = field === 'distance' 
+        ? parseFloat(value) || 0
+        : parseInt(value) || 0;
+      updatedExercise[field] = Math.max(0, numericValue);
+    });
+
+    // Update the data
+    const updatedData = data.map(group => ({
+      ...group,
+      ListEx: group.ListEx.map(item =>
+        item.name === modalData.exercise.name ? updatedExercise : item
+      )
+    }));
+    setData(updatedData);
+
+    // Save to workout history
+    saveToWorkoutHistory(updatedExercise);
+    closeModal();
+  };
+
   // Find the selected muscle group data
   const selectedExercises = data.find(row => row.MuscleGroups === selectedMuscleGroup)?.ListEx || (data[0]?.ListEx || []);
 
   // Load and save data to localStorage
   useEffect(() => {
     const loadWorkoutData = async () => {
-      // TEMPORARY FIX: Always clear cache to force fresh load with new structure
+      // Clear cache to force fresh load with new structure
       const storageKey = `workoutData_${group}`;
       localStorage.removeItem(storageKey);
       
       const savedData = localStorage.getItem(storageKey);
       
       if (savedData) {
-        // Use saved data from localStorage
         setData(JSON.parse(savedData));
       } else {
-        // Load from JSON file if no saved data exists
         try {
           // Map tab names to actual file names
           const fileNameMap = {
@@ -46,7 +103,6 @@ export default function MuscleGroupPage() {
           const fileName = fileNameMap[group] || group;
           const module = await import(`../jsonFiles/${fileName}.json`);
           setData(module.default);
-          // Save initial data to localStorage
           localStorage.setItem(storageKey, JSON.stringify(module.default));
         } catch (error) {
           console.error(`Error loading ${group}.json: `, error);
@@ -57,7 +113,7 @@ export default function MuscleGroupPage() {
     if (group) {
       loadWorkoutData();
     }
-  }, [group]); // Re-run when 'group' changes
+  }, [group]);
 
   // Save data to localStorage whenever data changes
   useEffect(() => {
@@ -65,15 +121,15 @@ export default function MuscleGroupPage() {
       const storageKey = `workoutData_${group}`;
       localStorage.setItem(storageKey, JSON.stringify(data));
     }
-  }, [data, group]); // Save whenever data changes
+  }, [data, group]);
 
-  // Define all possible tabs
-  const tabs = [
-    { path: 'cardio', label: 'Cardio' },
-    { path: 'upperbody', label: 'Upper Body' },
-    { path: 'abs', label: 'Abs' },
-    { path: 'lowerbody', label: 'Lower Body' }
-  ];
+  // Add body class for exercise page
+  useEffect(() => {
+    document.body.classList.add('exercise-page');
+    return () => {
+      document.body.classList.remove('exercise-page');
+    };
+  }, []);
 
   return (
     <>
@@ -117,140 +173,69 @@ export default function MuscleGroupPage() {
                   <div className="exercise-info">
                     <p id="exercise-name">{exercise.name}</p>
                     
-                    {/* Show weight field only if exercise has weight property */}
                     {exercise.hasOwnProperty('weight') && (
                       <div className="tracking">
                         <label>Weight (lbs)</label>
                         <div className="update">
-                          <button 
-                            className="update-btn decrease"
-                            onClick={() => handleUpdate(exercise, 'weight', -1)}
-                            disabled={exercise.weight <= 0}
-                          >
-                            −
-                          </button>
-                          <span className="value">{exercise.weight}</span>
-                          <button 
-                            className="update-btn increase"
-                            onClick={() => handleUpdate(exercise, 'weight', 1)}
-                          >
-                            +
-                          </button>
+                          <span className="clickable-number" onClick={() => openModal(exercise)}>
+                            {exercise.weight}
+                          </span>
                         </div>
                       </div>
                     )}
                     
-                    {/* Show reps field for strength/bodyweight exercises */}
-                    {exercise.hasOwnProperty('reps') && (
+                    {(exercise.hasOwnProperty('reps') || exercise.hasOwnProperty('sets')) && (
                       <div className="tracking">
-                        <label>Reps</label>    
-                        <div className="update">
-                          <button 
-                            className="update-btn decrease"
-                            onClick={() => handleUpdate(exercise, 'reps', -1)}
-                            disabled={exercise.reps <= 0}
-                          >
-                            −
-                          </button>
-                          <span className="value">{exercise.reps}</span>
-                          <button 
-                            className="update-btn increase"
-                            onClick={() => handleUpdate(exercise, 'reps', 1)}
-                          >
-                            +
-                          </button>
+                        <div className="update reps-sets-row">
+                          {exercise.hasOwnProperty('reps') && (
+                            <div className="reps-sets-item">
+                              <span className="field-label">Reps:</span>
+                              <span className="clickable-number" onClick={() => openModal(exercise)}>
+                                {exercise.reps}
+                              </span>
+                            </div>
+                          )}
+                          {exercise.hasOwnProperty('sets') && (
+                            <div className="reps-sets-item">
+                              <span className="field-label">Sets:</span>
+                              <span className="clickable-number" onClick={() => openModal(exercise)}>
+                                {exercise.sets}
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
                     
-                    {/* Show sets field for strength/bodyweight exercises */}
-                    {exercise.hasOwnProperty('sets') && (
-                      <div className="tracking">
-                        <label>Sets</label>    
-                        <div className="update">
-                          <button 
-                            className="update-btn decrease"
-                            onClick={() => handleUpdate(exercise, 'sets', -1)}
-                            disabled={exercise.sets <= 0}
-                          >
-                            −
-                          </button>
-                          <span className="value">{exercise.sets}</span>
-                          <button 
-                            className="update-btn increase"
-                            onClick={() => handleUpdate(exercise, 'sets', 1)}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Show duration field for cardio exercises */}
                     {exercise.hasOwnProperty('duration') && (
                       <div className="tracking">
                         <label>Duration (min)</label>    
                         <div className="update">
-                          <button 
-                            className="update-btn decrease"
-                            onClick={() => handleUpdate(exercise, 'duration', -1)}
-                            disabled={exercise.duration <= 0}
-                          >
-                            −
-                          </button>
-                          <span className="value">{exercise.duration}</span>
-                          <button 
-                            className="update-btn increase"
-                            onClick={() => handleUpdate(exercise, 'duration', 1)}
-                          >
-                            +
-                          </button>
+                          <span className="clickable-number" onClick={() => openModal(exercise)}>
+                            {exercise.duration}
+                          </span>
                         </div>
                       </div>
                     )}
                     
-                    {/* Show distance field for cardio exercises */}
                     {exercise.hasOwnProperty('distance') && (
                       <div className="tracking">
                         <label>Distance (miles)</label>    
                         <div className="update">
-                          <button 
-                            className="update-btn decrease"
-                            onClick={() => handleUpdate(exercise, 'distance', -0.1)}
-                            disabled={exercise.distance <= 0}
-                          >
-                            −
-                          </button>
-                          <span className="value">{exercise.distance.toFixed(1)}</span>
-                          <button 
-                            className="update-btn increase"
-                            onClick={() => handleUpdate(exercise, 'distance', 0.1)}
-                          >
-                            +
-                          </button>
+                          <span className="clickable-number" onClick={() => openModal(exercise)}>
+                            {exercise.distance.toFixed(1)}
+                          </span>
                         </div>
                       </div>
                     )}
                     
-                    {/* Show calories field for cardio exercises */}
                     {exercise.hasOwnProperty('calories') && (
                       <div className="tracking">
                         <label>Calories</label>    
                         <div className="update">
-                          <button 
-                            className="update-btn decrease"
-                            onClick={() => handleUpdate(exercise, 'calories', -10)}
-                            disabled={exercise.calories <= 0}
-                          >
-                            −
-                          </button>
-                          <span className="value">{exercise.calories}</span>
-                          <button 
-                            className="update-btn increase"
-                            onClick={() => handleUpdate(exercise, 'calories', 10)}
-                          >
-                            +
-                          </button>
+                          <span className="clickable-number" onClick={() => openModal(exercise)}>
+                            {exercise.calories}
+                          </span>
                         </div>
                       </div>
                     )}
@@ -267,23 +252,140 @@ export default function MuscleGroupPage() {
           </div>
         </div>
       </div>
+
+      {/* Exercise Edit Modal */}
+      {showModal && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Edit Exercise</h3>
+              <p>{modalData.exercise?.name}</p>
+            </div>
+            
+            <div className="modal-body">
+              {modalData.exercise?.hasOwnProperty('weight') && (
+                <div className="modal-field">
+                  <label>Weight (lbs):</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={modalData.editValues.weight || ''}
+                    onChange={(e) => updateModalField('weight', e.target.value)}
+                    className="modal-input"
+                    placeholder="Enter weight..."
+                  />
+                </div>
+              )}
+              
+              {modalData.exercise?.hasOwnProperty('reps') && (
+                <div className="modal-field">
+                  <label>Reps:</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={modalData.editValues.reps || ''}
+                    onChange={(e) => updateModalField('reps', e.target.value)}
+                    className="modal-input"
+                    placeholder="Enter reps..."
+                  />
+                </div>
+              )}
+              
+              {modalData.exercise?.hasOwnProperty('sets') && (
+                <div className="modal-field">
+                  <label>Sets:</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={modalData.editValues.sets || ''}
+                    onChange={(e) => updateModalField('sets', e.target.value)}
+                    className="modal-input"
+                    placeholder="Enter sets..."
+                  />
+                </div>
+              )}
+              
+              {modalData.exercise?.hasOwnProperty('duration') && (
+                <div className="modal-field">
+                  <label>Duration (minutes):</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={modalData.editValues.duration || ''}
+                    onChange={(e) => updateModalField('duration', e.target.value)}
+                    className="modal-input"
+                    placeholder="Enter duration..."
+                  />
+                </div>
+              )}
+              
+              {modalData.exercise?.hasOwnProperty('distance') && (
+                <div className="modal-field">
+                  <label>Distance (miles):</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    value={modalData.editValues.distance || ''}
+                    onChange={(e) => updateModalField('distance', e.target.value)}
+                    className="modal-input"
+                    placeholder="Enter distance..."
+                  />
+                </div>
+              )}
+              
+              {modalData.exercise?.hasOwnProperty('calories') && (
+                <div className="modal-field">
+                  <label>Calories:</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={modalData.editValues.calories || ''}
+                    onChange={(e) => updateModalField('calories', e.target.value)}
+                    className="modal-input"
+                    placeholder="Enter calories..."
+                  />
+                </div>
+              )}
+            </div>
+            
+            <div className="modal-actions">
+              <button className="modal-btn cancel" onClick={closeModal}>Cancel</button>
+              <button className="modal-btn save" onClick={saveAllModalValues}>Save All</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 
-  function handleUpdate(exercise, field, change) {
-    const updatedData = data.map(group => ({
-      ...group,
-      ListEx: group.ListEx.map(item =>
-        item.name === exercise.name
-          ? { 
-              ...item, 
-              [field]: field === 'distance' 
-                ? Math.max(0, Number((item[field] + change).toFixed(1)))
-                : Math.max(0, item[field] + change)
-            }
-          : item
-      )
-    }));
-    setData(updatedData);
+  function saveToWorkoutHistory(exercise) {
+    const history = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
+    
+    const historyEntry = {
+      date: new Date().toISOString(),
+      exerciseName: exercise.name,
+      category: group,
+      ...(exercise.weight !== undefined && { weight: exercise.weight }),
+      ...(exercise.reps !== undefined && { reps: exercise.reps }),
+      ...(exercise.sets !== undefined && { sets: exercise.sets }),
+      ...(exercise.duration !== undefined && { duration: exercise.duration }),
+      ...(exercise.distance !== undefined && { distance: exercise.distance }),
+      ...(exercise.calories !== undefined && { calories: exercise.calories })
+    };
+
+    history.push(historyEntry);
+    
+    // Keep only last 500 entries
+    if (history.length > 500) {
+      history.splice(0, history.length - 500);
+    }
+    
+    localStorage.setItem('workoutHistory', JSON.stringify(history));
   }
 }
