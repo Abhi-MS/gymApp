@@ -8,6 +8,14 @@ export default function Progress() {
   const [chartData, setChartData] = useState([]);
   const [chartType, setChartType] = useState('weight'); // weight, reps, sets, duration, etc.
 
+  // Add body class for styling
+  useEffect(() => {
+    document.body.classList.add('progress-page');
+    return () => {
+      document.body.classList.remove('progress-page');
+    };
+  }, []);
+
   useEffect(() => {
     const history = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
     setWorkoutHistory(history);

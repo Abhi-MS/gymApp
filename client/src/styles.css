@@ -2174,13 +2174,15 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Hide RepTrack title on mobile for exercise pages */
+/* Hide RepTrack title on mobile for exercise and progress pages */
 @media (max-width: 768px) {
-  body.exercise-page .text {
+  body.exercise-page .text,
+  body.progress-page .text {
     display: none;
   }
   
-  body.exercise-page .overlay {
+  body.exercise-page .overlay,
+  body.progress-page .overlay {
     display: none;
   }
 }
@@ -3114,6 +3116,7 @@
   right: 0;
   bottom: 0;
   z-index: 1;
+  padding: 0 0 1rem 0;
 }
 
 .grid-line {
@@ -3142,6 +3145,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   height: 100%;
 }
 
@@ -3729,6 +3733,7 @@
   
   .chart-bars {
     gap: 4px;
+    height: 100%;
   }
   
   .chart-bar {
