@@ -27,19 +27,6 @@ export default function Progress() {
     }
   }, [selectedExercise, workoutHistory]);
 
-  const formatTooltipData = (entry) => {
-    const tooltipData = [];
-    
-    if (entry.weight !== undefined) tooltipData.push(`Weight: ${entry.weight} lbs`);
-    if (entry.reps !== undefined) tooltipData.push(`Reps: ${entry.reps}`);
-    if (entry.sets !== undefined) tooltipData.push(`Sets: ${entry.sets}`);
-    if (entry.duration !== undefined) tooltipData.push(`Duration: ${entry.duration} min`);
-    if (entry.distance !== undefined) tooltipData.push(`Distance: ${entry.distance} miles`);
-    if (entry.calories !== undefined) tooltipData.push(`Calories: ${entry.calories}`);
-    
-    return tooltipData;
-  };
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -209,7 +196,6 @@ export default function Progress() {
                       const value = entry[chartType] || 0;
                       const height = getProgressPercentage(value, getChartMaxValue());
                       const isLatest = index === chartData.length - 1;
-                      const tooltipData = formatTooltipData(entry);
                       
                       return (
                         <div key={index} className="chart-bar-container">
@@ -220,19 +206,9 @@ export default function Progress() {
                               backgroundColor: getCurrentMetric()?.color,
                               '--glow-color': getCurrentMetric()?.color
                             }}
-                            data-tooltip={`${formatDate(entry.date)}\n${tooltipData.join('\n')}`}
+                            title={`${formatDate(entry.date)}: ${value}`}
                           >
                             <div className="bar-value">{value}</div>
-                            <div className="chart-tooltip">
-                              <div className="tooltip-date">{formatDate(entry.date)}</div>
-                              <div className="tooltip-metrics">
-                                {tooltipData.map((metric, idx) => (
-                                  <div key={idx} className={`tooltip-metric ${metric.toLowerCase().includes(chartType) ? 'highlighted' : ''}`}>
-                                    {metric}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
                           </div>
                           <div className="bar-label">{formatDate(entry.date)}</div>
                         </div>

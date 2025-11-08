@@ -82,10 +82,7 @@ export default function MuscleGroupPage() {
   // Load and save data to localStorage
   useEffect(() => {
     const loadWorkoutData = async () => {
-      // Clear cache to force fresh load with new structure
       const storageKey = `workoutData_${group}`;
-      localStorage.removeItem(storageKey);
-      
       const savedData = localStorage.getItem(storageKey);
       
       if (savedData) {
