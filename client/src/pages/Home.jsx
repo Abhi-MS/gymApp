@@ -363,45 +363,111 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="main-content">
-        {/* Workout Groups */}
-        <div className="workout-section">
-          <h2 className="section-title">Choose Your Workout</h2>
-          <div className="groups-grid">
-            <Link to="/cardio" className="group-link">
-              <div className="workout-card">
-                <div className="workout-icon">❤️</div>
-                <h3>Cardio</h3>
-                <p>Boost your endurance</p>
+        {/* Top Section: Progress Dashboard + Workout Selection */}
+        <div className="top-section">
+          {/* Progress Dashboard - Featured Section */}
+          <div className="progress-dashboard-section">
+            <Link to="/progress" className="progress-dashboard-link">
+              <div className="progress-dashboard-card">
+                <div className="progress-dashboard-header">
+                  <div className="progress-dashboard-icon">
+                    <div className="icon-background">
+                      <span className="main-icon">📈</span>
+                      <span className="floating-icon">💪</span>
+                      <span className="floating-icon">🔥</span>
+                    </div>
+                  </div>
+                  <div className="progress-dashboard-content">
+                    <h2 className="progress-dashboard-title">Your Fitness Journey</h2>
+                    <p className="progress-dashboard-subtitle">Visualize your progress with interactive charts</p>
+                    
+                    <div className="progress-preview">
+                      <div className="preview-stat">
+                        <span className="stat-label">Workouts</span>
+                        <span className="stat-value">{(() => {
+                          const history = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
+                          return history.length;
+                        })()}</span>
+                      </div>
+                      <div className="preview-stat">
+                        <span className="stat-label">Exercises</span>
+                        <span className="stat-value">{(() => {
+                          const history = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
+                          const uniqueExercises = new Set(history.map(entry => entry.exerciseName));
+                          return uniqueExercises.size;
+                        })()}</span>
+                      </div>
+                      <div className="preview-stat">
+                        <span className="stat-label">This Week</span>
+                        <span className="stat-value">{(() => {
+                          const history = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
+                          const thisWeek = history.filter(entry => {
+                            const entryDate = new Date(entry.date);
+                            const now = new Date();
+                            const weekStart = new Date(now.setDate(now.getDate() - now.getDay() + 1));
+                            return entryDate >= weekStart;
+                          });
+                          return thisWeek.length;
+                        })()}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="cta-section">
+                      <span className="cta-text">View detailed analytics</span>
+                      <span className="cta-arrow">→</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </Link>
-            <Link to="/upperbody" className="group-link">
-              <div className="workout-card">
-                <div className="workout-icon">💪</div>
-                <h3>Upper Body</h3>
-                <p>Strengthen your arms & chest</p>
-              </div>
-            </Link>
-            <Link to="/lowerbody" className="group-link">
-              <div className="workout-card">
-                <div className="workout-icon">🦵</div>
-                <h3>Lower Body</h3>
-                <p>Build powerful legs</p>
-              </div>
-            </Link>
-            <Link to="/abs" className="group-link">
-              <div className="workout-card">
-                <div className="workout-icon">🔥</div>
-                <h3>Abs</h3>
-                <p>Core strengthening</p>
-              </div>
-            </Link>
-            <Link to="/progress" className="group-link">
-              <div className="workout-card progress-card">
-                <div className="workout-icon">📊</div>
-                <h3>Progress</h3>
-                <p>Track your improvements</p>
-              </div>
-            </Link>
+          </div>
+
+          {/* Workout Groups */}
+          <div className="workout-section">
+            <h2 className="section-title">Start Your Workout</h2>
+            <div className="groups-grid">
+              <Link to="/cardio" className="group-link">
+                <div className="workout-card">
+                  <div className="workout-icon">❤️</div>
+                  <h3>Cardio</h3>
+                </div>
+              </Link>
+              <Link to="/upperbody" className="group-link">
+                <div className="workout-card">
+                  <div className="workout-icon">💪</div>
+                  <h3>Upper Body</h3>
+                </div>
+              </Link>
+              <Link to="/lowerbody" className="group-link">
+                <div className="workout-card">
+                  <div className="workout-icon">🦵</div>
+                  <h3>Lower Body</h3>
+                </div>
+              </Link>
+              <Link to="/abs" className="group-link">
+                <div className="workout-card">
+                  <div className="workout-icon">🔥</div>
+                  <h3>Abs</h3>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Calendar Section Link */}
+        <div className="calendar-link-section">
+          <div onClick={() => {
+            const calendarSection = document.querySelector('.calendar-section');
+            if (calendarSection) {
+              calendarSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }} className="calendar-navigation-card">
+            <div className="calendar-nav-icon">📅</div>
+            <div className="calendar-nav-content">
+              <h3>Plan Your Workouts</h3>
+              <p>Schedule and organize your fitness routine with our interactive calendar</p>
+            </div>
+            <div className="calendar-nav-arrow">→</div>
           </div>
         </div>
 

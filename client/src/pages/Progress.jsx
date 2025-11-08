@@ -27,6 +27,26 @@ export default function Progress() {
     }
   }, [selectedExercise, workoutHistory]);
 
+  // Separate useEffect to handle chart type auto-selection
+  useEffect(() => {
+    if (chartData.length > 0) {
+      const firstEntry = chartData[0];
+      const availableMetrics = [];
+      
+      if (firstEntry.weight !== undefined) availableMetrics.push('weight');
+      if (firstEntry.reps !== undefined) availableMetrics.push('reps');
+      if (firstEntry.sets !== undefined) availableMetrics.push('sets');
+      if (firstEntry.duration !== undefined) availableMetrics.push('duration');
+      if (firstEntry.distance !== undefined) availableMetrics.push('distance');
+      if (firstEntry.calories !== undefined) availableMetrics.push('calories');
+      
+      // If current chartType is not available, switch to first available metric
+      if (availableMetrics.length > 0 && !availableMetrics.includes(chartType)) {
+        setChartType(availableMetrics[0]);
+      }
+    }
+  }, [chartData, chartType]);
+
   const formatTooltipData = (entry) => {
     const tooltipData = [];
     
