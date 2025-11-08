@@ -22,16 +22,11 @@
 ### **Live Demo Video**
 *See the app in action - tracking reps and managing workouts*
 
-<!-- Method 1: Direct video embedding (recommended) -->
-<video width="100%" controls>
-  <source src="./client/public/RepTrack.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
-<!-- Alternative Method 2: GitHub raw link -->
-<!-- 
-https://github.com/Abhi-MS/gymApp/raw/master/client/public/RepTrack.mp4
--->
+
+https://github.com/user-attachments/assets/0319b6e2-f243-4cd4-8caf-39be0f49e492
+
+
 
 > **Note:** The video above demonstrates the app's core features including exercise tracking, rep counting, and workout management.
 
@@ -202,32 +197,6 @@ npm run deploy
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-1. **🍴 Fork the repository**
-2. **🌿 Create a feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **📝 Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
-4. **📤 Push to the branch** (`git push origin feature/AmazingFeature`)
-5. **🔀 Open a Pull Request**
-
-### 💡 **Ideas for Contributions**
-- Add new exercises to the database
-- Implement workout history charts
-- Add timer functionality for rest periods
-- Create workout templates
-- Improve mobile responsiveness
-- Add exercise instruction videos
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 👨‍💻 Author
 
 **Abhi-MS**
@@ -236,14 +205,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🙏 Acknowledgments
-
-- **React Team** for the amazing framework
-- **FullCalendar** for the calendar component
-- **Fitness Community** for exercise database inspiration
-- **Contributors** who help improve this project
-
----
 
 <div align="center">
 
