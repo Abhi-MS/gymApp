@@ -40,9 +40,27 @@ export default function Home() {
     return `${year}-${month}-${day}`;
   };
 
+  // Get workout colors
+  const getWorkoutColor = useCallback((workoutType) => {
+    const colors = {
+      'cardio': '#e74c3c',
+      'upperbody': '#3498db',
+      'lowerbody': '#2ecc71',
+      'abs': '#f39c12'
+    };
+    return colors[workoutType] || '#95a5a6';
+  }, []);
+
   // Create default workout plan for a specific week
   const createDefaultWeekPlan = useCallback((weekStartStr) => {
     const weekStart = new Date(weekStartStr + 'T00:00:00');
+    
+    const workoutLabels = {
+      'upperbody': 'Upper Body',
+      'lowerbody': 'Lower Body',
+      'cardio': 'Cardio',
+      'abs': 'Abs'
+    };
     
     // Define the default split: Upper/Lower with Cardio and Abs
     const defaultSplit = [
@@ -57,6 +75,8 @@ export default function Home() {
 
     // Create the plan with actual dates
     const newPlan = {};
+    const newEvents = [];
+    
     for (let i = 0; i < 7; i++) {
       const day = new Date(weekStart);
       day.setDate(weekStart.getDate() + i);
@@ -64,14 +84,46 @@ export default function Home() {
       
       if (defaultSplit[i]) {
         newPlan[dateStr] = defaultSplit[i];
+        
+        // Add calendar events for each workout
+        defaultSplit[i].forEach(workoutType => {
+          const newEvent = {
+            title: workoutLabels[workoutType],
+            date: dateStr,
+            id: `plan_${dateStr}_${workoutType}`,
+            isPlanned: true,
+            backgroundColor: getWorkoutColor(workoutType),
+            borderColor: getWorkoutColor(workoutType)
+          };
+          newEvents.push(newEvent);
+        });
       }
     }
 
     // Save to localStorage
     localStorage.setItem(`weeklyPlan_${weekStartStr}`, JSON.stringify(newPlan));
     
+    // Update calendar events state
+    setCalendarEvents(prev => {
+      // Remove any existing planned events for this week
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
+      const filteredEvents = prev.filter(event => {
+        const eventDate = new Date(event.date);
+        return !(eventDate >= weekStart && eventDate <= weekEnd && event.isPlanned);
+      });
+      
+      // Add new events
+      const updatedEvents = [...filteredEvents, ...newEvents];
+      
+      // Save to localStorage
+      localStorage.setItem('workoutCalendarEvents', JSON.stringify(updatedEvents));
+      
+      return updatedEvents;
+    });
+    
     return newPlan;
-  }, []);
+  }, [setCalendarEvents, getWorkoutColor]);
 
   // Select a week to display in the sidebar
   const selectWeek = useCallback((weekStartStr) => {
@@ -207,6 +259,28 @@ export default function Home() {
       localStorage.setItem(`weeklyPlan_${getNextWeekStart()}`, JSON.stringify(newNextWeekPlan));
     }
 
+    // Also update the currently selected week plan
+    if (selectedWeekStart) {
+      const currentSelectedPlan = selectedWeekPlan[selectedDate] || [];
+      const selectedPlanArray = Array.isArray(currentSelectedPlan) ? currentSelectedPlan : [currentSelectedPlan].filter(Boolean);
+      
+      // Toggle workout in the selected week plan
+      let newSelectedPlanArray;
+      if (selectedPlanArray.includes(workoutType)) {
+        newSelectedPlanArray = selectedPlanArray.filter(w => w !== workoutType);
+      } else {
+        newSelectedPlanArray = [...selectedPlanArray, workoutType];
+      }
+      
+      const newSelectedWeekPlan = {
+        ...selectedWeekPlan,
+        [selectedDate]: newSelectedPlanArray.length > 0 ? newSelectedPlanArray : null
+      };
+      
+      setSelectedWeekPlan(newSelectedWeekPlan);
+      localStorage.setItem(`weeklyPlan_${selectedWeekStart}`, JSON.stringify(newSelectedWeekPlan));
+    }
+
     // Handle calendar events - allow multiple events per day
     const existingEvents = calendarEvents.filter(event => event.date === selectedDate && event.isPlanned);
     const existingWorkoutEvent = existingEvents.find(event => event.id === `plan_${selectedDate}_${workoutType}`);
@@ -251,6 +325,16 @@ export default function Home() {
       localStorage.setItem(`weeklyPlan_${getNextWeekStart()}`, JSON.stringify(newNextWeekPlan));
     }
 
+    // Also clear from the currently selected week plan
+    if (selectedWeekStart) {
+      const newSelectedWeekPlan = {
+        ...selectedWeekPlan,
+        [selectedDate]: null
+      };
+      setSelectedWeekPlan(newSelectedWeekPlan);
+      localStorage.setItem(`weeklyPlan_${selectedWeekStart}`, JSON.stringify(newSelectedWeekPlan));
+    }
+
     // Remove all planned events for this date
     const updatedEvents = calendarEvents.filter(event => !(event.date === selectedDate && event.isPlanned));
     setCalendarEvents(updatedEvents);
@@ -260,9 +344,11 @@ export default function Home() {
   };
 
   // Create default workout plan for a specific week
-  // Apply default workout split for next week
+  // Apply default workout split for selected week
   const applyDefaultSplit = () => {
-    const nextWeekStart = new Date(getNextWeekStart());
+    if (!selectedWeekStart) return;
+    
+    const weekStart = new Date(selectedWeekStart + 'T00:00:00');
     const workoutLabels = {
       'upperbody': 'Upper Body',
       'lowerbody': 'Lower Body',
@@ -286,17 +372,17 @@ export default function Home() {
     const newPlan = {};
     const newCalendarEvents = [...calendarEvents];
 
-    // Remove existing planned events for next week
-    const nextWeekEnd = new Date(nextWeekStart);
-    nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
+    // Remove existing planned events for selected week
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
     const filteredEvents = newCalendarEvents.filter(event => {
       const eventDate = new Date(event.date);
-      return !(eventDate >= nextWeekStart && eventDate <= nextWeekEnd && event.isPlanned);
+      return !(eventDate >= weekStart && eventDate <= weekEnd && event.isPlanned);
     });
 
     for (let i = 0; i < 7; i++) {
-      const day = new Date(nextWeekStart);
-      day.setDate(nextWeekStart.getDate() + i);
+      const day = new Date(weekStart);
+      day.setDate(weekStart.getDate() + i);
       const dateStr = day.toISOString().split('T')[0];
       
       if (defaultSplit[i]) {
@@ -318,10 +404,19 @@ export default function Home() {
     }
 
     // Update state and localStorage
-    setNextWeekPlan(newPlan);
     setCalendarEvents(filteredEvents);
-    localStorage.setItem(`weeklyPlan_${getNextWeekStart()}`, JSON.stringify(newPlan));
     localStorage.setItem('workoutCalendarEvents', JSON.stringify(filteredEvents));
+    
+    // Save the plan for the selected week
+    localStorage.setItem(`weeklyPlan_${selectedWeekStart}`, JSON.stringify(newPlan));
+    
+    // Update the appropriate week plan state
+    if (selectedWeekStart === getNextWeekStart()) {
+      setNextWeekPlan(newPlan);
+    }
+    
+    // Update the selected week plan
+    setSelectedWeekPlan(newPlan);
   };
 
   // Clear the selected week
@@ -394,16 +489,6 @@ export default function Home() {
     selectWeek(newWeekStart);
   };
 
-  // Get workout colors
-  const getWorkoutColor = (workoutType) => {
-    const colors = {
-      'cardio': '#e74c3c',
-      'upperbody': '#3498db',
-      'lowerbody': '#2ecc71',
-      'abs': '#f39c12'
-    };
-    return colors[workoutType] || '#95a5a6';
-  };
   return (
     <>
     <div className="home">
@@ -575,6 +660,7 @@ export default function Home() {
             isNextWeek={selectedWeekStart === getNextWeekStart()}
             onApplyDefaultSplit={applyDefaultSplit}
             onClearWeek={clearSelectedWeek}
+            canClearWeek={selectedWeekStart !== getNextWeekStart()}
           />
         </div>
       </div>

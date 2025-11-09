@@ -28,7 +28,8 @@ export default function MuscleGroupPage() {
     const editValues = {};
     ['weight', 'reps', 'sets', 'duration', 'distance', 'calories'].forEach(field => {
       if (exercise.hasOwnProperty(field)) {
-        editValues[field] = exercise[field].toString();
+        // For number fields, if the value is 0, set to empty string for better UX
+        editValues[field] = exercise[field] === 0 ? '' : exercise[field].toString();
       }
     });
     

@@ -6,7 +6,8 @@ function WeeklyPlan({
   isNextWeek = false, 
   onApplyDefaultSplit, 
   onClearWeek,
-  onWeekPlanUpdate 
+  onWeekPlanUpdate,
+  canClearWeek = true
 }) {
 
   // Use the provided weekStart or fallback to next week calculation
@@ -87,18 +88,23 @@ function WeeklyPlan({
         <h3 className="week-title">{getWeekTitle()}</h3>
         {hasAnyPlan && (
           <button 
-            className="clear-week-btn"
-            onClick={onClearWeek}
-            title={`Clear all workouts for ${isNextWeek ? 'next week' : 'this week'}`}
+            className={`clear-week-btn ${!canClearWeek ? 'disabled' : ''}`}
+            onClick={canClearWeek ? onClearWeek : undefined}
+            disabled={!canClearWeek}
+            title={
+              !canClearWeek 
+                ? 'Cannot clear the current/upcoming week' 
+                : `Clear all workouts for ${isNextWeek ? 'next week' : 'this week'}`
+            }
           >
             🗑️ Clear Week
           </button>
         )}
       </div>
 
-      {!hasAnyPlan && isNextWeek && (
+      {!hasAnyPlan && (
         <div className="no-plan-message">
-          <p>📅 Next week is not planned yet</p>
+          <p>📅 {isNextWeek ? 'Next week is not planned yet' : 'This week has no planned workouts'}</p>
           <span>Click on calendar days to plan your workouts</span>
           <div className="default-split-suggestion">
             <p className="suggestion-text">💡 Want a proven workout split?</p>
@@ -112,13 +118,6 @@ function WeeklyPlan({
               <small>Mon: Upper Body • Tue: Lower Body • Wed: Cardio • Thu: Upper Body • Fri: Lower Body • Sat: Abs • Sun: Rest</small>
             </div>
           </div>
-        </div>
-      )}
-
-      {!hasAnyPlan && !isNextWeek && (
-        <div className="no-plan-message">
-          <p>📅 No workouts planned for this week</p>
-          <span>Click on calendar days to plan your workouts</span>
         </div>
       )}
       
