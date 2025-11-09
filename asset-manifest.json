@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/gymApp/static/css/main.f3d807dc.css",
-    "main.js": "/gymApp/static/js/main.7cfd9c78.js",
+    "main.css": "/gymApp/static/css/main.ad2d6ad9.css",
+    "main.js": "/gymApp/static/js/main.b4fe6cdf.js",
     "static/js/89.5f13b5cc.chunk.js": "/gymApp/static/js/89.5f13b5cc.chunk.js",
     "static/js/693.7412f07a.chunk.js": "/gymApp/static/js/693.7412f07a.chunk.js",
     "static/js/572.03341889.chunk.js": "/gymApp/static/js/572.03341889.chunk.js",
     "static/js/601.8c4924e2.chunk.js": "/gymApp/static/js/601.8c4924e2.chunk.js",
     "index.html": "/gymApp/index.html",
-    "main.f3d807dc.css.map": "/gymApp/static/css/main.f3d807dc.css.map",
-    "main.7cfd9c78.js.map": "/gymApp/static/js/main.7cfd9c78.js.map"
+    "main.ad2d6ad9.css.map": "/gymApp/static/css/main.ad2d6ad9.css.map",
+    "main.b4fe6cdf.js.map": "/gymApp/static/js/main.b4fe6cdf.js.map"
   },
   "entrypoints": [
-    "static/css/main.f3d807dc.css",
-    "static/js/main.7cfd9c78.js"
+    "static/css/main.ad2d6ad9.css",
+    "static/js/main.b4fe6cdf.js"
   ]
 }
