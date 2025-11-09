@@ -7,7 +7,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=GitHub%20Pages&logoColor=white)
 
-**A comprehensive fitness tracking application to monitor your gym progress and plan your workouts**
+**A comprehensive fitness tracking application with advanced analytics, weekly planning, and interactive workout management**
 
 [🌐 Live Demo](https://abhi-ms.github.io/gymApp) | [📱 Features](#-features) | [🚀 Getting Started](#-getting-started)
 
@@ -23,9 +23,11 @@
 *See the app in action - tracking reps and managing workouts*
 
 
+https://github.com/user-attachments/assets/c98608b1-497d-47b7-b635-6d5f85d0b165
 
-https://github.com/user-attachments/assets/0319b6e2-f243-4cd4-8caf-39be0f49e492
+https://github.com/user-attachments/assets/3fea926e-6a73-4d23-9c33-550b2f24ab34
 
+https://github.com/user-attachments/assets/2beac1bd-8fd4-4bb3-94bb-541dade34d55
 
 
 > **Note:** The video above demonstrates the app's core features including exercise tracking, rep counting, and workout management.
@@ -37,28 +39,31 @@ https://github.com/user-attachments/assets/0319b6e2-f243-4cd4-8caf-39be0f49e492
 ## ✨ Features
 
 ### 🎯 **Core Functionality**
-- **📈 Progress Tracking** - Monitor weight and reps for each exercise
-- **📅 Workout Calendar** - Visual calendar with workout planning
-- **💾 Local Storage** - Your data persists between sessions
-- **📱 Responsive Design** - Works seamlessly on all devices
+- **📈 Advanced Progress Tracking** - Interactive charts with multiple metrics (weight, reps, sets, duration, distance, calories)
+- **📅 Interactive Workout Calendar** - Full-featured calendar with FullCalendar integration
+- **💾 Intelligent Data Persistence** - Smart local storage with workout history and plans
+- **📱 Fully Responsive Design** - Optimized for desktop, tablet, and mobile devices
 
-### 🏋️ **Exercise Categories**
-- **❤️ Cardio** - Running, cycling, and endurance exercises
-- **💪 Upper Body** - Biceps, triceps, chest, shoulders, and back
-- **🦵 Lower Body** - Quads, hamstrings, glutes, and calves  
-- **🔥 Abs** - Core strengthening and abdominal exercises
+### 🏋️ **Comprehensive Exercise Library**
+- **❤️ Cardio** - 25+ activities including running, cycling, HIIT, and swimming
+- **💪 Upper Body** - 60+ exercises covering biceps, triceps, chest, shoulders, and back
+- **🦵 Lower Body** - 40+ exercises for quads, hamstrings, glutes, and calves  
+- **🔥 Abs** - 30+ core exercises including planks, crunches, and oblique workouts
 
-### 📋 **Workout Management**
-- **🗓️ Weekly Planning** - Plan and organize your weekly workout routine
-- **🎨 Visual Indicators** - Color-coded workout types for easy identification
-- **⚡ Quick Access** - Navigate between muscle groups with intuitive tabs
-- **🔄 Real-time Updates** - Instant progress tracking with +/- buttons
+### 📋 **Advanced Workout Management**
+- **🗓️ Smart Weekly Planning** - Comprehensive weekly workout scheduler with visual timeline
+- **� Default Workout Splits** - Pre-configured Upper/Lower split with customization options
+- **📊 Multi-Day Planning** - Plan multiple workout types per day with easy toggle system
+- **🎨 Color-Coded System** - Visual workout identification with consistent theme colors
+- **⚡ One-Click Actions** - Quick workout planning and clearing with confirmation dialogs
+- **🔄 Real-time Sync** - Instant updates across calendar and weekly plan views
 
-### 🎨 **User Experience**
-- **🌙 Modern Dark Theme** - Eye-friendly interface with gradients
-- **💫 Smooth Animations** - Polished transitions and hover effects
-- **📱 Mobile Optimized** - Horizontal scrolling and touch-friendly controls
-- **🔍 Easy Navigation** - Intuitive routing between workout categories
+### 🎨 **Enhanced User Experience**
+- **� Stellar Dark Theme** - Modern glassmorphism design with space-inspired gradients
+- **💫 Fluid Animations** - Smooth transitions, hover effects, and micro-interactions
+- **📱 Mobile-First Design** - Touch-optimized controls and responsive grid layouts
+- **🧭 Intuitive Navigation** - Week navigation, quick access tabs, and breadcrumb trails
+- **⚡ Performance Optimized** - Fast loading with efficient data handling
 
 ---
 
@@ -67,12 +72,16 @@ https://github.com/user-attachments/assets/0319b6e2-f243-4cd4-8caf-39be0f49e492
 | Technology | Purpose | Version |
 |------------|---------|---------|
 | **React** | Frontend Framework | ^18.2.0 |
-| **React Router** | Navigation & Routing | ^6.22.3 |
-| **FullCalendar** | Interactive Calendar | ^6.1.15 |
+| **React Router DOM** | Navigation & Routing | ^6.22.3 |
+| **FullCalendar** | Interactive Calendar Component | ^6.1.15 |
+| **FullCalendar React** | React Integration | ^6.1.15 |
+| **FullCalendar DayGrid** | Calendar Day View | ^6.1.15 |
+| **FullCalendar Interaction** | User Interactions | ^6.1.15 |
 | **React Calendar** | Date Picker Component | ^5.0.0 |
 | **PapaParse** | CSV Data Processing | ^5.4.1 |
-| **CSS3** | Styling & Animations | - |
-| **Local Storage** | Data Persistence | Browser API |
+| **CSS3** | Advanced Styling & Animations | Latest |
+| **Local Storage API** | Client-side Data Persistence | Browser Native |
+| **GitHub Pages** | Static Site Deployment | Latest |
 
 ---
 
@@ -128,72 +137,107 @@ npm run deploy
 ## 📱 How to Use
 
 ### 🏠 **Getting Started**
-1. **Home Dashboard** - View your workout categories and calendar
-2. **Choose Category** - Click on Cardio, Upper Body, Lower Body, or Abs
-3. **Select Muscle Group** - Pick specific muscle groups from the sidebar
-4. **Track Progress** - Use +/- buttons to log weights and reps
+1. **Home Dashboard** - View progress overview, workout categories, and interactive calendar
+2. **Progress Analytics** - Click the featured progress card to access detailed workout analytics
+3. **Choose Category** - Select from Cardio, Upper Body, Lower Body, or Abs workout types
+4. **Track Progress** - Use +/- buttons to log weights, reps, sets, and other metrics
 
-### 📅 **Planning Workouts**
-1. **Calendar View** - Click on any date in the calendar
-2. **Add Workouts** - Select workout types for that day
-3. **Weekly Planning** - Use the weekly planner for structured routines
-4. **Default Split** - Apply a pre-configured workout split
+### 📅 **Advanced Workout Planning**
+1. **Interactive Calendar** - Click any date to plan workouts with multi-selection support
+2. **Weekly Planner** - Navigate between weeks with intuitive previous/next controls
+3. **Smart Default Splits** - Apply proven workout splits (Upper/Lower/Cardio/Abs rotation)
+4. **Flexible Scheduling** - Add multiple workout types per day or clear entire weeks
+5. **Visual Confirmation** - Color-coded calendar events and planning confirmations
 
-### 💾 **Data Persistence**
-- All progress is automatically saved to browser local storage
-- Exercise data persists between sessions
-- Workout plans are saved and restored
-- No account required - everything stays on your device
+### 📊 **Progress Analytics**
+1. **Exercise Selection** - Choose from all tracked exercises in dropdown menu
+2. **Metric Analysis** - Switch between weight, reps, sets, duration, distance, and calories
+3. **Interactive Charts** - Hover for detailed workout information with date tooltips
+4. **Trend Tracking** - Monitor improvement over time with visual progress indicators
+5. **Workout History** - Complete chronological record of all exercise sessions
+
+### 💾 **Data Management**
+- **Automatic Saving** - All data persists instantly to browser local storage
+- **Workout History** - Complete log of exercise sessions with detailed metrics
+- **Plan Persistence** - Weekly plans and calendar events saved between sessions
+- **No Account Required** - Everything stored locally for privacy and offline access
 
 ---
 
 ## 📊 Exercise Database
 
 ### 💪 **Upper Body** (60+ exercises)
-- **Biceps**: Dumbbell curls, hammer curls, barbell curls
-- **Triceps**: Tricep dips, overhead extensions, pushdowns
-- **Chest**: Bench press, push-ups, flyes
-- **Shoulders**: Overhead press, lateral raises, rear delts
-- **Back**: Pull-ups, rows, lat pulldowns
+- **Biceps**: Dumbbell curls, hammer curls, barbell curls, cable curls, concentration curls
+- **Triceps**: Tricep dips, overhead extensions, pushdowns, close-grip push-ups, diamond push-ups
+- **Chest**: Bench press, incline press, push-ups, flyes, dips, chest press variations
+- **Shoulders**: Overhead press, lateral raises, rear delts, front raises, upright rows
+- **Back**: Pull-ups, chin-ups, rows, lat pulldowns, deadlifts, reverse flyes
 
 ### 🦵 **Lower Body** (40+ exercises)
-- **Quads**: Squats, lunges, leg press
-- **Hamstrings**: Deadlifts, leg curls, good mornings
-- **Glutes**: Hip thrusts, Bulgarian split squats
-- **Calves**: Calf raises, seated calf raises
+- **Quads**: Squats, front squats, leg press, lunges, step-ups, Bulgarian split squats
+- **Hamstrings**: Romanian deadlifts, leg curls, good mornings, stiff-leg deadlifts
+- **Glutes**: Hip thrusts, glute bridges, clamshells, lateral walks, donkey kicks
+- **Calves**: Standing calf raises, seated calf raises, single-leg raises, wall sits
 
 ### ❤️ **Cardio** (25+ activities)
-- **Running**: Treadmill, outdoor, intervals
-- **Cycling**: Stationary bike, outdoor cycling
-- **HIIT**: High-intensity interval training
-- **Swimming**: Various strokes and techniques
+- **Running**: Treadmill intervals, outdoor runs, sprints, tempo runs, long distance
+- **Cycling**: Stationary bike, spin classes, outdoor cycling, mountain biking
+- **HIIT**: High-intensity intervals, circuit training, tabata, burpees, mountain climbers
+- **Swimming**: Freestyle, backstroke, breaststroke, water aerobics, pool running
+- **Other**: Rowing, elliptical, stair climbing, jumping rope, dancing
 
-### 🔥 **Abs** (30+ exercises)
-- **Core**: Planks, mountain climbers, Russian twists
-- **Upper Abs**: Crunches, sit-ups, leg raises
-- **Lower Abs**: Reverse crunches, knee raises
-- **Obliques**: Side planks, bicycle crunches
+### 🔥 **Abs & Core** (30+ exercises)
+- **Core Stability**: Planks, side planks, dead bugs, bird dogs, hollow holds
+- **Upper Abs**: Crunches, sit-ups, reverse crunches, V-ups, toe touches
+- **Lower Abs**: Leg raises, knee raises, scissors, flutter kicks, hanging leg raises
+- **Obliques**: Russian twists, bicycle crunches, wood chops, side bends, oblique crunches
+- **Functional**: Mountain climbers, bear crawls, Turkish get-ups, farmers walks
+
+---
+
+## 🚀 Recent Updates
+
+### 🆕 **Latest Features**
+- **📊 Enhanced Progress Analytics** - Interactive charts with multiple metrics tracking
+- **🗓️ Advanced Weekly Planning** - Comprehensive weekly workout scheduler with navigation
+- **🎯 Smart Default Splits** - Pre-configured workout routines with Upper/Lower body rotation
+- **💫 Improved User Interface** - Redesigned with stellar theme and glassmorphism effects
+- **📱 Mobile Optimization** - Better responsive design for all screen sizes
+- **⚡ Performance Improvements** - Faster loading and smoother animations
+- **🔄 Data Synchronization** - Better integration between calendar and weekly plans
+
+### 🔧 **Technical Improvements**
+- **FullCalendar Integration** - Professional calendar component with advanced features
+- **Smart State Management** - Improved data persistence and synchronization
+- **Component Architecture** - Modular design with reusable components
+- **Responsive Design System** - Consistent styling across all screen sizes
 
 ---
 
 ## 🎨 Design Features
 
 ### 🌟 **Visual Design**
-- **Dark Theme**: Modern dark interface with vibrant accents
-- **Gradient Backgrounds**: Beautiful color transitions
-- **Glass Morphism**: Subtle transparency effects
-- **Color Coding**: Each workout type has its unique color
+- **Stellar Dark Theme** - Space-inspired interface with cosmic gradients and nebula effects
+- **Glassmorphism UI** - Modern glass-like transparency effects with backdrop blur
+- **Color-Coded System** - Consistent color theming for each workout category
+- **Responsive Layouts** - Adaptive grid systems and flexible component sizing
 
-### 📱 **Responsive Layout**
-- **Desktop**: Full sidebar navigation with grid layouts
-- **Tablet**: Horizontal tabs with optimized spacing
-- **Mobile**: Horizontal scrolling cards with touch controls
+### 📱 **Cross-Platform Experience**
+- **Desktop**: Full sidebar navigation with grid layouts and hover interactions
+- **Tablet**: Optimized horizontal tabs with touch-friendly spacing
+- **Mobile**: Swipe-enabled cards with vertical scrolling and gesture support
 
-### ⚡ **Performance**
-- **Lazy Loading**: Efficient component rendering
-- **Local Storage**: Fast data access without server calls
-- **Optimized Images**: Compressed exercise demonstration images
-- **Smooth Animations**: 60fps transitions and hover effects
+### ⚡ **Performance & Interactions**
+- **Smooth Animations** - 60fps transitions with CSS3 hardware acceleration
+- **Smart Loading** - Efficient component rendering and data fetching
+- **Instant Feedback** - Real-time visual responses to user interactions
+- **Accessible Design** - Screen reader support and keyboard navigation
+
+### 🎯 **User Interface Enhancements**
+- **Interactive Elements** - Hover states, click animations, and loading indicators
+- **Context-Aware Buttons** - Disabled states and confirmation dialogs
+- **Progressive Disclosure** - Information revealed on demand to reduce clutter
+- **Visual Hierarchy** - Clear information architecture with proper spacing and typography
 
 ---
 
