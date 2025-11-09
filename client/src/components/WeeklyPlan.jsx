@@ -93,7 +93,7 @@ function WeeklyPlan({
             disabled={!canClearWeek}
             title={
               !canClearWeek 
-                ? 'Cannot clear the current/upcoming week' 
+                ? 'Cannot clear this week' 
                 : `Clear all workouts for ${isNextWeek ? 'next week' : 'this week'}`
             }
           >

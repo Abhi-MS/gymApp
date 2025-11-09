@@ -137,44 +137,35 @@ export default function Home() {
     if (savedWeekPlan) {
       weekPlan = JSON.parse(savedWeekPlan);
     } else {
-      // If this is the next week and no plan exists, automatically create default
-      if (weekStartStr === getNextWeekStart()) {
-        createDefaultWeekPlan(weekStartStr);
-        const newSavedPlan = localStorage.getItem(`weeklyPlan_${weekStartStr}`);
-        if (newSavedPlan) {
-          weekPlan = JSON.parse(newSavedPlan);
-        }
-      } else {
-        // For other weeks, fallback: check individual date entries and calendar events
-        const weekStart = new Date(weekStartStr + 'T00:00:00');
+      // For all weeks (including next week), fallback: check individual date entries and calendar events
+      const weekStart = new Date(weekStartStr + 'T00:00:00');
+      
+      for (let i = 0; i < 7; i++) {
+        const day = new Date(weekStart);
+        day.setDate(weekStart.getDate() + i);
+        const year = day.getFullYear();
+        const month = (day.getMonth() + 1).toString().padStart(2, '0');
+        const dayNum = day.getDate().toString().padStart(2, '0');
+        const dateStr = `${year}-${month}-${dayNum}`;
         
-        for (let i = 0; i < 7; i++) {
-          const day = new Date(weekStart);
-          day.setDate(weekStart.getDate() + i);
-          const year = day.getFullYear();
-          const month = (day.getMonth() + 1).toString().padStart(2, '0');
-          const dayNum = day.getDate().toString().padStart(2, '0');
-          const dateStr = `${year}-${month}-${dayNum}`;
-          
-          // Check localStorage for individual date
-          const savedWorkouts = localStorage.getItem(dateStr);
-          if (savedWorkouts) {
-            weekPlan[dateStr] = JSON.parse(savedWorkouts);
-          } else {
-            // Check calendar events
-            const dayEvents = calendarEvents.filter(event => 
-              event.date === dateStr && event.isPlanned
-            );
-            if (dayEvents.length > 0) {
-              weekPlan[dateStr] = dayEvents.map(event => event.workouts || []).flat();
-            }
+        // Check localStorage for individual date
+        const savedWorkouts = localStorage.getItem(dateStr);
+        if (savedWorkouts) {
+          weekPlan[dateStr] = JSON.parse(savedWorkouts);
+        } else {
+          // Check calendar events
+          const dayEvents = calendarEvents.filter(event => 
+            event.date === dateStr && event.isPlanned
+          );
+          if (dayEvents.length > 0) {
+            weekPlan[dateStr] = dayEvents.map(event => event.workouts || []).flat();
           }
         }
       }
     }
     
     setSelectedWeekPlan(weekPlan);
-  }, [calendarEvents, createDefaultWeekPlan]);
+  }, [calendarEvents]); // Removed createDefaultWeekPlan dependency as it's no longer used
 
   // Load initial data
   useEffect(() => {
@@ -251,9 +242,14 @@ export default function Home() {
       }
       
       const newNextWeekPlan = {
-        ...nextWeekPlan,
-        [selectedDate]: newPlanArray.length > 0 ? newPlanArray : null
+        ...nextWeekPlan
       };
+      
+      if (newPlanArray.length > 0) {
+        newNextWeekPlan[selectedDate] = newPlanArray;
+      } else {
+        delete newNextWeekPlan[selectedDate]; // Remove property instead of setting to null
+      }
       
       setNextWeekPlan(newNextWeekPlan);
       localStorage.setItem(`weeklyPlan_${getNextWeekStart()}`, JSON.stringify(newNextWeekPlan));
@@ -273,9 +269,14 @@ export default function Home() {
       }
       
       const newSelectedWeekPlan = {
-        ...selectedWeekPlan,
-        [selectedDate]: newSelectedPlanArray.length > 0 ? newSelectedPlanArray : null
+        ...selectedWeekPlan
       };
+      
+      if (newSelectedPlanArray.length > 0) {
+        newSelectedWeekPlan[selectedDate] = newSelectedPlanArray;
+      } else {
+        delete newSelectedWeekPlan[selectedDate]; // Remove property instead of setting to null
+      }
       
       setSelectedWeekPlan(newSelectedWeekPlan);
       localStorage.setItem(`weeklyPlan_${selectedWeekStart}`, JSON.stringify(newSelectedWeekPlan));
@@ -318,9 +319,9 @@ export default function Home() {
 
     if (selectedDateObj >= nextWeekStart && selectedDateObj <= nextWeekEnd) {
       const newNextWeekPlan = {
-        ...nextWeekPlan,
-        [selectedDate]: null
+        ...nextWeekPlan
       };
+      delete newNextWeekPlan[selectedDate]; // Remove the property entirely instead of setting to null
       setNextWeekPlan(newNextWeekPlan);
       localStorage.setItem(`weeklyPlan_${getNextWeekStart()}`, JSON.stringify(newNextWeekPlan));
     }
@@ -328,9 +329,9 @@ export default function Home() {
     // Also clear from the currently selected week plan
     if (selectedWeekStart) {
       const newSelectedWeekPlan = {
-        ...selectedWeekPlan,
-        [selectedDate]: null
+        ...selectedWeekPlan
       };
+      delete newSelectedWeekPlan[selectedDate]; // Remove the property entirely instead of setting to null
       setSelectedWeekPlan(newSelectedWeekPlan);
       localStorage.setItem(`weeklyPlan_${selectedWeekStart}`, JSON.stringify(newSelectedWeekPlan));
     }
@@ -454,19 +455,18 @@ export default function Home() {
     setCalendarEvents(filteredEvents);
     localStorage.setItem('workoutCalendarEvents', JSON.stringify(filteredEvents));
 
-    // If this is next week, also clear the next week plan
+    // Always clear the weekly plan for the selected week
+    localStorage.removeItem(`weeklyPlan_${selectedWeekStart}`);
+    
+    // If this is next week, also clear the next week plan state
     const nextWeekStart = getNextWeekStart();
     if (selectedWeekStart === nextWeekStart) {
       setNextWeekPlan({});
-      localStorage.removeItem(`weeklyPlan_${nextWeekStart}`);
     }
 
-    // Reset the selected week plan and refresh it
+    // Reset the selected week plan
     setSelectedWeekPlan({});
     setShowClearConfirm(false);
-    
-    // Immediately refresh the selected week to show the cleared state
-    selectWeek(selectedWeekStart);
   };
 
   const cancelClearWeek = () => {
@@ -660,7 +660,7 @@ export default function Home() {
             isNextWeek={selectedWeekStart === getNextWeekStart()}
             onApplyDefaultSplit={applyDefaultSplit}
             onClearWeek={clearSelectedWeek}
-            canClearWeek={selectedWeekStart !== getNextWeekStart()}
+            canClearWeek={true}
           />
         </div>
       </div>
@@ -734,7 +734,7 @@ export default function Home() {
               <h3>🗑️ Clear Week</h3>
             </div>
             <div className="confirmation-content">
-              <p>Are you sure you want to clear all workouts for {selectedWeekStart === getNextWeekStart() ? 'next week' : 'this week'}?</p>
+              <p>Are you sure you want to clear all workouts for {selectedWeekStart === getNextWeekStart() ? 'next week' : 'the selected week'}?</p>
               <p className="warning-text">This action cannot be undone.</p>
             </div>
             <div className="confirmation-actions">
